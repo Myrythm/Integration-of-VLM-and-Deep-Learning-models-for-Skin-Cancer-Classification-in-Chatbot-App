@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Deteksi Kanker Kulit</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/assets/css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navmenu" data-bs-offset="70">
+    <!-- Navbar -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+            <a href="#hero" class="logo d-flex align-items-center">
+                <h1 class="sitename fs-4">Skin Cancer Detector</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="#hero" class="active">Beranda</a></li>
+                    <li><a href="#about">Tentang</a></li>
+                    <li><a href="#how-it-works">Alur Kerja</a></li>
+                    <li><a href="#article">Artikel</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <div class="snowfall-container"></div>
+            <img src="../static/home/assets/" alt="" class="hero-bg">
+            
+            <div class="container position-relative">
+                <div class="row gy-4 justify-content-between">
+                    <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-in">
+                        <h1>Deteksi & Konsultasi Kanker Kulit dengan <span>AI</span></h1>
+                        <p>Dapatkan analisis cepat dan konsultasi langsung melalui chatbot AI kami untuk pemeriksaan kesehatan kulit Anda lebih awal</p>
+                        <div class="d-flex gap-3">
+                            <a href="/upload" style="text-decoration: none;" class="btn-get-started">Mulai Deteksi!</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-5 order-lg-last hero-img d-none d-lg-block" data-aos="zoom-out" data-aos-delay="100">
+                        <img src="../static/home/assets/images/bot.png" class="img-fluid animated" alt="AI Health Assistant" style="width: 900px; height: auto;">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Wave SVG -->
+            <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none">
+                <defs>
+                    <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+                </defs>
+                <g class="wave1">
+                    <use xlink:href="#wave-path" x="50" y="3"></use>
+                </g>
+                <g class="wave2">
+                    <use xlink:href="#wave-path" x="50" y="0"></use>
+                </g>
+                <g class="wave3">
+                    <use xlink:href="#wave-path" x="50" y="9"></use>
+                </g>
+            </svg>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-detection">
+            <div class="container">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="display-5 fw-bold section-title">
+                        Kenapa Deteksi Dini Itu <span class="text-accent">Penting?</span>
+                    </h2>
+                    <p class="text-muted mb-5" style="font-size: 1.1rem;">
+                        Temukan kanker kulit sedini mungkin untuk peluang kesembuhan yang lebih tinggi
+                    </p>
+                </div>
+
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6 d-none d-lg-block" data-aos="fade-right">
+                        <div class="image-wrapper">
+                            <div class="rounded-4 overflow-hidden">
+                                <img src="../static/home/assets/images/undraw_doctor_aum1.png" class="img-fluid w-100" alt="Early Detection Illustration">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="row g-4">
+                            <!-- Feature Cards -->
+                            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                                <div class="feature-card">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-heart-pulse text-white fs-4"></i>
+                                    </div>
+                                    <h4 class="text-dark mb-3">Pengobatan Efektif</h4>
+                                    <p class="text-muted mb-0">Deteksi dini memungkinkan penanganan lebih tepat dan efektif sebelum penyakit berkembang lebih parah</p>
+                                </div>
+                            </div>
+                               <!-- Card 2 -->
+                    <div class="col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                      <div class="feature-card">
+                          <div class="feature-icon">
+                              <i class="bi bi-cash text-white fs-4"></i>
+                          </div>
+                          <h4 class="text-dark mb-3">Hemat Biaya</h4>
+                          <p class="text-muted mb-0">Biaya pengobatan lebih terjangkau karena mencegah komplikasi dan perawatan intensif jangka panjang</p>
+                      </div>
+                  </div>
+                  <!-- Card 3 -->
+                  <div class="col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                      <div class="feature-card">
+                          <div class="feature-icon">
+                              <i class="bi bi-activity text-white fs-4"></i>
+                          </div>
+                          <h4 class="text-dark mb-3">Penurunan Mortalitas</h4>
+                          <p class="text-muted mb-0">Menurunkan risiko kematian secara signifikan melalui penanganan tepat waktu dan pencegahan komplikasi</p>
+                      </div>
+                  </div>
+                  <!-- Card 4 -->
+                  <div class="col-md-6" data-aos="zoom-in" data-aos-delay="400">
+                      <div class="feature-card">
+                          <div class="feature-icon">
+                              <i class="bi bi-stars text-white fs-4"></i>
+                          </div>
+                          <h4 class="text-dark mb-3">Kualitas Hidup</h4>
+                          <p class="text-muted mb-0">Mengurangi tingkat morbiditas dan meningkatkan kualitas hidup pasien dengan pencegahan dini</p>
+                      </div>
+                  </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works">
+          <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+              <h2 class="display-5 fw-bold section-title text-white">Alur Kerja Skin Cancer Detector</h2>
+              <p class="mx-auto text-white-50" style="max-width: 800px;">
+                Dengan teknologi AI terkini, kami membantu Anda mendeteksi kanker kulit dengan mudah dan akurat
+              </p>
+            </div>
+        
+            <div class="steps-wrapper">
+              <div class="step-item" data-aos="fade-up">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h3>Upload Gambar</h3>
+                  <p>Unggah foto area kulit yang ingin Anda periksa</p>
+                </div>
+                <div class="glow-effect"></div>
+              </div>
+        
+              <div class="step-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h3>Proses Analisis</h3>
+                  <p>AI kami akan menganalisis gambar dan mendeteksi tanda-tanda potensial kanker kulit</p>
+                </div>
+                <div class="glow-effect"></div>
+              </div>
+        
+              <div class="step-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h3>Dapatkan Hasil</h3>
+                  <p>Terima hasil analisis detail beserta rekomendasi tindakan lanjutan</p>
+                </div>
+                <div class="glow-effect"></div>
+              </div>
+        
+              <div class="step-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h3>Konsultasi Chatbot</h3>
+                  <p>Tanyakan lebih detail tentang hasil analisis Anda melalui chatbot AI kami</p>
+                </div>
+                <div class="glow-effect"></div>
+              </div>
+            </div>
+          </div>
+      </section>
+
+      <!-- AI section -->
+      
+        <!-- Article Section -->
+        <section id="article" class="section-articles py-5">
+          <div class="container">
+            <!-- Section Header -->
+            <div class="text-center mb-5" data-aos="fade-up">
+              <h2 class="display-5 fw-bold section-title">
+                Artikel Terkait
+                <span class="text-accent">Kanker Kulit</span>
+              </h2>
+              <p class="text-muted mb-5" style="font-size: 1.1rem;">
+                Temukan informasi terbaru seputar kesehatan kulit dan pencegahan kanker kulit
+              </p>
+            </div>
+        
+            <!-- Articles Grid -->
+            <div class="row g-4">
+              <!-- Article Card 1 -->
+              <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="card h-100 shadow-sm">
+                  <img src="../static/home/assets/images/article1.png" class="card-img-top" alt="Article 1" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <span class="badge bg-danger">Kanker Kulit</span>
+                      <small class="text-muted">5 Maret 2024</small>
+                    </div>
+                    <h5 class="card-title">Mengenal Jenis-jenis Kanker Kulit</h5>
+                    <p class="card-text text-muted">Pelajari berbagai jenis kanker kulit dan bagaimana cara mengidentifikasinya sejak dini.</p>
+                    <a href="/Mengenal-Jenis-Jenis-Kanker-Kulit" class="btn btn-outline-success">Baca Selengkapnya</a>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Article Card 2 -->
+              <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 shadow-sm">
+                  <img src="../static/home/assets/images/article2.png" class="card-img-top" alt="Article 2" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <span class="badge bg-success">Tips</span>
+                      <small class="text-muted">3 Maret 2024</small>
+                    </div>
+                    <h5 class="card-title">Tips Menjaga Kesehatan Kulit</h5>
+                    <p class="card-text text-muted">Temukan cara-cara efektif untuk menjaga kesehatan kulit Anda dari bahaya sinar UV.</p>
+                    <a href="/Tips-Menjaga-Kesehatan-Kulit" class="btn btn-outline-success">Baca Selengkapnya</a>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Article Card 3 -->
+              <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 shadow-sm">
+                  <img src="../static/home/assets/images/article3.png" class="card-img-top" alt="Article 3" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <span class="badge bg-danger">Kanker Kulit</span>
+                      <small class="text-muted">1 Maret 2024</small>
+                    </div>
+                    <h5 class="card-title">Kenali Ciri-Ciri Karsioma Sel Basal</h5>
+                    <p class="card-text text-muted">Pelajari tanda-tanda awal karsinoma sel basal, faktor risikonya, serta pencegahannya.</p>
+                    <a href="/Kenali-Ciri-Ciri-Karsioma-Sel-Basal" class="btn btn-outline-success">Baca Selengkapnya</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Article Card 4 -->
+              <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 shadow-sm">
+                  <img src="../static/home/assets/images/article4.png" class="card-img-top" alt="Article 4" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <span class="badge bg-danger">Kanker Kulit</span>
+                      <small class="text-muted">1 Maret 2024</small>
+                    </div>
+                    <h5 class="card-title">Perubahan bentuk pada tahi lalat?</h5>
+                    <p class="card-text text-muted">Pertumbuhan bentuk pada tahi lalat bisa jadi merupakan gejala awal melanoma.</p>
+                    <a href="/Perubahan-Bentuk-Pada-Tahi-Lalat" class="btn btn-outline-success">Baca Selengkapnya</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Article Card 5 -->
+              <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 shadow-sm">
+                  <img src="../static/home/assets/images/article5.png" class="card-img-top" alt="Article 5" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <span class="badge bg-success">Tips</span>
+                      <small class="text-muted">1 Maret 2024</small>
+                    </div>
+                    <h5 class="card-title">Cara Melindungi Diri dari Bahaya Sinar UV</h5>
+                    <p class="card-text text-muted">Ketahui langkah-langkah perlindungan terbaik, untuk mengurangi risiko kerusakan kulit akibat sinar UV.</p>
+                    <a href="/Cara-Melindungi-Diri-dari-Bahaya-Sinar-UV" class="btn btn-outline-success">Baca Selengkapnya</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Article Card 6 -->
+              <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 shadow-sm">
+                  <img src="../static/home/assets/images/article6.png" class="card-img-top" alt="Article 6" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <span class="badge bg-danger">Kanker Kulit</span>
+                      <small class="text-muted">1 Maret 2024</small>
+                    </div>
+                    <h5 class="card-title">Tanda-Tanda Awal Kanker Kulit</h5>
+                    <p class="card-text text-muted">Simak bagaimana teknologi AI revolucioner membantu deteksi kanker kulit lebih awal.</p>
+                    <a href="/Tanda-Tanda-Awal-Kanker-Kulit" class="btn btn-outline-success">Baca Selengkapnya</a>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+        
+          </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section-faq py-5">
+          <div class="container">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-5 position-relative" data-aos="fade-up">
+              <h2 class="display-5 fw-bold section-title">
+                Frequently Asked
+                <span class="text-gradient">Question</span>
+              </h2>
+              <p class="text-muted mx-auto mt-3" style="max-width: 700px;">
+                Temukan jawaban untuk pertanyaan Anda seputar deteksi kanker kulit menggunakan AI
+              </p>
+            </div>
+        
+         
+        
+            <!-- Enhanced FAQ Accordion -->
+            <div class="row justify-content-center">
+              <div class="col-lg-9">
+                <div class="accordion custom-accordion" id="faqAccordion">
+                  <!-- FAQ Item 1 -->
+                  <div class="accordion-item" data-category="general" data-aos="fade-up">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        <div class="faq-icon">
+                          <i class="bi bi-patch-question"></i>
+                        </div>
+                        <div class="faq-question">
+                          <span class="faq-category-badge">Umum</span>
+                          Apakah hasil deteksi AI akurat?
+                        </div>
+                      </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        <div class="row align-items-center">
+                          <div class="col-md-12">
+                            <p class="mb-3">Meskipun AI kami memiliki tingkat akurasi yang cukup tinggi, hasil deteksi kami tetap tidak dapat menggantikan diagnosis dokter sepenuhnya. Kami merekomendasikan untuk tetap melakukan konsultasi dengan dokter spesialis kulit untuk konfirmasi hasil dan penanganan lebih lanjut.</p>
+                            <div class="accuracy-stats d-flex gap-4 justify-content-center">
+                              <div class="stat-item">
+                                <div class="stat-value">99%</div>
+                                <div class="stat-label">Akurasi Pelatihan</div>
+                              </div>
+                              <div class="stat-item">
+                                <div class="stat-value">93.5%</div>
+                                <div class="stat-label">Akurasi Validasi</div>
+                              </div>
+                              <div class="stat-item">
+                                <div class="stat-value">95%</div>
+                                <div class="stat-label">Akurasi Pengujian</div>
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <!-- FAQ Item 3 -->
+                  <div class="accordion-item" data-category="technical" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        <div class="faq-icon">
+                          <i class="bi bi-camera"></i>
+                        </div>
+                        <div class="faq-question">
+                          <span class="faq-category-badge">Teknis</span>
+                          Bagaimana cara mengambil foto yang baik untuk deteksi?
+                        </div>
+                      </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        <div class="photo-guidelines">
+                          <div class="guideline-item">
+                            <i class="bi bi-brightness-high"></i>
+                            <span>Patikan cahaya cukup</span>
+                          </div>
+                          <div class="guideline-item">
+                            <i class="bi bi-arrows-angle-contract"></i>
+                            <span>Fokus pada area yang ingin diperiksa</span>
+                          </div>
+                          <div class="guideline-item">
+                            <i class="bi bi-camera-fill"></i>
+                            <span>Jaga jarak 15-20 cm dari kulit</span>
+                          </div>
+                          <div class="guideline-item">
+                            <i class="bi bi-aspect-ratio"></i>
+                            <span>Pastikan area kulit terlihat jelas dan tidak blur</span>
+                          </div>
+                        </div>
+                        <div class="photo-examples mt-4">
+                          <div class="row g-3">
+                            <div class="col-6">
+                              <div class="example-photo good">
+                                <img src="../static/home/assets/images/article4.png" alt="Foto yang baik">
+                                <div class="label correct">✓ Benar</div>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="example-photo bad">
+                                <img src="../static/home/assets/images/article4.png" alt="Foto yang buruk" style="transform: scale(2.7); filter: brightness(0.7); filter: blur(0.1rem);">
+                                <div class="label incorrect">✗ Salah</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <!-- FAQ Item 4 -->
+                  <div class="accordion-item" data-category="technical" data-aos="fade-up" data-aos-delay="300">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        <div class="faq-icon">
+                          <i class="bi bi-hourglass-split"></i>
+                        </div>
+                        <div class="faq-question">
+                          <span class="faq-category-badge">Teknis</span>
+                          Berapa lama proses analisis berlangsung?
+                        </div>
+                      </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        <div class="analysis-timeline">
+                          <div class="timeline-step active">
+                            <div class="step-icon">1</div>
+                            <div class="step-label">Upload Gambar</div>
+                            <div class="step-time">2-3 detik</div>
+                          </div>
+                          <div class="timeline-step active">
+                            <div class="step-icon">2</div>
+                            <div class="step-label">Proses Analisis AI</div>
+                            <div class="step-time">5-7 detik</div>
+                          </div>
+                          <div class="timeline-step">
+                            <div class="step-icon">3</div>
+                            <div class="step-label">Tampilkan Hasil</div>
+                            <div class="step-time">2-3 detik</div>
+                          </div>
+                        </div>
+                        <div class="timeline-info mt-3">
+                          <p>Total waktu proses: 10-15 detik</p>
+                          <p class="text-muted small">*Waktu dapat bervariasi tergantung ukuran gambar dan kecepatan internet</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <!-- FAQ Item 5 -->
+                  <div class="accordion-item" data-category="privacy" data-aos="fade-up" data-aos-delay="400">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        <div class="faq-icon">
+                          <i class="bi bi-shield-lock"></i>
+                        </div>
+                        <div class="faq-question">
+                          <span class="faq-category-badge">Privasi</span>
+                          Bagaimana dengan privasi dan keamanan data saya?
+                        </div>
+                      </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        <div class="security-features">
+                          <div class="feature-grid">
+                            <div class="security-feature">
+                              <i class="bi bi-shield-check"></i>
+                              <h6>Data Aman</h6>
+                              <p>Gambar diproses secara langsung tanpa penyimpanan data</p>
+                            </div>
+                            <div class="security-feature">
+                              <i class="bi bi-person-lock"></i>
+                              <h6>Privasi Terjamin</h6>
+                              <p>Tidak ada data yang dikumpulkan atau dibagikan</p>
+                            </div>
+                            <div class="security-feature">
+                              <i class="bi bi-cpu"></i>
+                              <h6>Proses Lokal</h6>
+                              <p>Analisis dilakukan langsung di perangkat Anda</p>
+                            </div>
+                            <div class="security-feature">
+                              <i class="bi bi-incognito"></i>
+                              <h6>Tanpa Jejak</h6>
+                              <p>Tidak ada informasi pribadi yang tersimpan</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                </div>
+              </div>
+            </div>
+        </div>
+        </section>
+        <!-- Footer -->
+<footer class="text-center text-white py-3" style="background-color: #137483;">
+  <div class="container">
+      <div class="row align-items-center">
+          <div class="col-12">
+              <div class="d-flex justify-content-center align-items-center gap-3">
+                  <p class="mb-0">Tunggu Apa Lagi?</p>
+                  <button class="btn btn-outline-light btn-sm px-4" style="border-radius: 15px;" onclick="window.location.href='/upload'">Deteksi Sekarang</button>
+              </div>
+              <hr class="my-3" style="background-color: rgba(255,255,255,0.1);">
+              <p class="mb-0" style="font-size: 0.9rem;">Skin Cancer Detector</p>
+          </div>
+      </div>
+  </div>
+</footer>
+
+    </main>
+    <button class="scroll-top">
+      <i class="bi bi-arrow-up"></i>
+    </button>    
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='home/assets/js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='home/assets/js/particlejs') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</body>
+</html>

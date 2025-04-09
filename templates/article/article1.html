@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mengenal Jenis-jenis Kanker Kulit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='article/style.css') }}">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+</head>
+<body>
+ 
+    <!-- Header -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+            <a href="/" class="logo d-flex align-items-center">
+                <h1 class="sitename fs-4">Skin Cancer Detector</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="/#about">Tentang</a></li>
+                    <li><a href="/#how-it-works">Alur Kerja</a></li>
+                    <li><a href="/#article" class="active">Artikel</a></li>
+                    <li><a href="/#faq">FAQ</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="main">
+        <!-- Article Content -->
+        <div class="container">
+            <div class="article-container">
+                <div class="article-header">
+                    <h1 class="article-title">Mengenal Jenis-jenis Kanker Kulit</h1>
+                    <div class="article-meta">
+                        <div class="author">
+                            <i class="bi bi-person-fill"></i>
+                            <span>Ditulis oleh <strong>Dr. Andi Wijaya</strong></span>
+                        </div>
+                        <div class="date">
+                            <i class="bi bi-calendar3"></i>
+                            <span>Diterbitkan pada <time>5 Maret 2024</time></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="article-image">
+                    <img src="../static/home/assets/images/article1.png" 
+                         alt="Jenis-jenis Kanker Kulit">
+                </div>
+                
+                <div class="article-content">
+                    <p>
+                        Kanker kulit merupakan salah satu jenis kanker yang paling umum di dunia, dengan lebih dari 3 juta kasus baru setiap tahunnya. Kondisi ini terjadi ketika sel-sel kulit mengalami pertumbuhan abnormal dan tidak terkendali. Mengenali jenis-jenis kanker kulit dan tanda-tandanya sejak dini sangat penting untuk penanganan yang efektif dan hasil pengobatan yang optimal.
+                    </p>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-info-circle-fill me-2"></i>Penting untuk Diketahui</h3>
+                        <p>Deteksi dini kanker kulit dapat meningkatkan peluang kesembuhan hingga 90%. Pemeriksaan rutin dan pengenalan gejala awal sangat penting untuk pencegahan. Jika ditemukan dan diobati sejak dini, sebagian besar kanker kulit dapat disembuhkan sepenuhnya.</p>
+                    </div>
+                 
+                    
+                    <h2>Karsinoma Sel Basal (Basal Cell Carcinoma)</h2>
+                    <p>
+                        Karsinoma sel basal adalah jenis kanker kulit yang paling umum, mencakup sekitar 80% dari semua kasus kanker kulit. Kanker ini berkembang di lapisan basal epidermis, lapisan terluar kulit.
+                    </p>
+                    
+                    <div class="info-box">
+                        <h3><i class="bi bi-search me-2"></i>Tanda-tanda yang Perlu Diwaspadai:</h3>
+                        <ul class="mb-0">
+                            <li>Benjolan kecil berwarna merah muda, putih, atau kecoklatan</li>
+                            <li>Area yang tampak seperti bekas luka datar</li>
+                            <li>Luka yang berdarah dan tidak kunjung sembuh</li>
+                            <li>Benjolan berkilau dengan pembuluh darah yang terlihat</li>
+                            <li>Area yang tampak seperti eksim</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Karsinoma Sel Skuamosa (Squamous Cell Carcinoma)</h2>
+                    <p>
+                        Karsinoma sel skuamosa adalah jenis kanker kulit kedua yang paling umum, berkembang di sel-sel skuamosa yang membentuk lapisan tengah dan luar kulit. Berbeda dengan karsinoma sel basal, jenis ini memiliki kemungkinan lebih tinggi untuk menyebar ke jaringan di sekitarnya.
+                    </p>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-search me-2"></i>Karakteristik Utama:</h3>
+                        <ul class="mb-0">
+                            <li>Benjolan merah yang keras atau bersisik</li>
+                            <li>Luka terbuka yang tidak sembuh</li>
+                            <li>Pertumbuhan seperti kutil yang kadang berdarah</li>
+                            <li>Sering muncul di area yang terpapar sinar matahari</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Melanoma</h2>
+                    <p>
+                        Melanoma adalah jenis kanker kulit yang paling berbahaya karena kemampuannya untuk menyebar dengan cepat ke organ lain. Meskipun hanya menyumbang sekitar 1% dari semua kasus kanker kulit, melanoma bertanggung jawab atas sebagian besar kematian akibat kanker kulit.
+                    </p>
+
+                    <blockquote>
+                        <p>Untuk mengenali melanoma, gunakan panduan ABCDE:</p>
+                    </blockquote>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-card-checklist me-2"></i>Panduan ABCDE Melanoma</h3>
+                        <ul class="mb-0">
+                            <li><strong>A - Asymmetry (Asimetris)</strong>: Bentuk tidak simetris jika dibagi dua</li>
+                            <li><strong>B - Border (Batas)</strong>: Tepi tidak teratur atau bergerigi</li>
+                            <li><strong>C - Color (Warna)</strong>: Warna tidak merata, bisa hitam, coklat, atau merah</li>
+                            <li><strong>D - Diameter</strong>: Ukuran lebih besar dari 6 mm (sebesar pensil)</li>
+                            <li><strong>E - Evolving (Berubah)</strong>: Perubahan ukuran, bentuk, atau warna seiring waktu</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Karsinoma Sel Merkel</h2>
+                    <p>
+                        Karsinoma sel Merkel adalah jenis kanker kulit yang jarang terjadi namun sangat agresif. Kanker ini berasal dari sel Merkel, sel-sel yang berada di dekat ujung saraf di lapisan bawah kulit dan berperan dalam sensasi sentuhan.
+                    </p>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-exclamation-triangle me-2"></i>Karakteristik Penting:</h3>
+                        <ul class="mb-0">
+                            <li>Benjolan merah atau keunguan yang tumbuh cepat</li>
+                            <li>Umumnya tidak nyeri saat disentuh</li>
+                            <li>Sering muncul di area yang terpapar sinar matahari</li>
+                            <li>Lebih sering terjadi pada orang berusia di atas 50 tahun</li>
+                            <li>Dapat menyebar dengan cepat ke kelenjar getah bening</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Pencegahan Kanker kulit</h2>
+                    <div class="info-box">
+                        <h3><i class="bi bi-shield-check me-2"></i>Langkah-langkah Pencegahan</h3>
+                        <ul class="mb-0">
+                            <li><strong>Perlindungan dari Sinar UV</strong>:
+                                <ul>
+                                    <li>Gunakan tabir surya broad-spectrum dengan SPF minimal 30</li>
+                                    <li>Aplikasikan ulang setiap 2 jam atau setelah berenang/berkeringat</li>
+                                    <li>Kenakan pakaian pelindung, topi lebar, dan kacamata UV</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hindari Paparan Berlebihan</strong>:
+                                <ul>
+                                    <li>Batasi aktivitas di luar ruangan antara pukul 10 pagi hingga 4 sore</li>
+                                    <li>Cari tempat teduh saat beraktivitas di luar</li>
+                                    <li>Hindari penggunaan tanning bed</li>
+                                </ul>
+                            </li>
+                            <li><strong>Pemeriksaan Rutin</strong>:
+                                <ul>
+                                    <li>Lakukan pemeriksaan kulit sendiri setiap bulan</li>
+                                    <li>Perhatikan perubahan pada tahi lalat atau munculnya pertumbuhan baru</li>
+                                    <li>Konsultasikan dengan dokter jika menemukan perubahan mencurigakan</li>
+                                    <li>Lakukan pemeriksaan kulit profesional setahun sekali</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box" style="background-color: #ffe5e5; border-color: #ffb3b3;">
+                        <h3><i class="bi bi-exclamation-circle-fill me-2" style="color: #cc0000;"></i>Kapan Harus ke Dokter?</h3>
+                        <p>Segera konsultasikan ke dokter jika Anda mengalami:</p>
+                        <ul class="mb-0">
+                            <li>Perubahan pada tahi lalat atau pertumbuhan kulit yang ada</li>
+                            <li>Luka yang tidak kunjung sembuh setelah 2 minggu</li>
+                            <li>Benjolan atau pertumbuhan baru pada kulit</li>
+                            <li>Perubahan warna atau tekstur kulit yang tidak normal</li>
+                            <li>Rasa gatal atau nyeri yang persisten pada area tertentu di kulit</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-3" style="background-color: #137483;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <p class="mb-0">Tunggu Apa Lagi?</p>
+                        <button class="btn btn-outline-light btn-sm px-4" style="border-radius: 15px;" onclick="window.location.href='/upload'">Deteksi Sekarang</button>
+                    </div>
+                    <hr class="my-3" style="background-color: rgba(255,255,255,0.1);">
+                    <p class="mb-0" style="font-size: 0.9rem;">Skin Cancer Detector</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="{{ url_for('static', filename='article/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
+  
+</body>
+</html>

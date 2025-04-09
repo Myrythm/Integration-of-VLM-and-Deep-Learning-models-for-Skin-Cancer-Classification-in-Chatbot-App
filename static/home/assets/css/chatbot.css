@@ -1,0 +1,49 @@
+body.light-mode {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+body.dark-mode {
+    background-color: #212529;
+    color: #f8f9fa;
+}
+
+.chat-box {
+    height: 400px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+body.dark-mode .chat-box {
+    background-color: #343a40;
+    border: 1px solid #495057;
+}
+
+.message {
+    margin-bottom: 15px;
+}
+
+.message.user .message-text {
+    background-color: #0d6efd;
+    color: #ffffff;
+    align-self: flex-end;
+}
+
+.message.bot .message-text {
+    background-color: #e9ecef;
+    color: #212529;
+    align-self: flex-start;
+}
+
+.message .message-text {
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 70%;
+}
+
+#theme-toggle {
+    transition: background-color 0.3s, color 0.3s;
+}

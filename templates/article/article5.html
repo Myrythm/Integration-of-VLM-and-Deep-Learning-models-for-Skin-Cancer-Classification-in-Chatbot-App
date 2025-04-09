@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara Melindungi Diri dari Bahaya Sinar UV</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='article/style.css') }}">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+</head>
+<body>
+ 
+    <!-- Header -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+            <a href="/" class="logo d-flex align-items-center">
+                <h1 class="sitename fs-4">Skin Cancer Detector</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="/#about">Tentang</a></li>
+                    <li><a href="/#how-it-works">Alur Kerja</a></li>
+                    <li><a href="/#article" class="active">Artikel</a></li>
+                    <li><a href="/#faq">FAQ</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
+    
+
+
+    <main class="main">
+        <!-- Article Content -->
+        <div class="container">
+            <div class="article-container">
+                <div class="article-header">
+                    <h1 class="article-title">Cara Melindungi Diri dari Bahaya Sinar UV</h1>
+                    <div class="article-meta">
+                        <div class="author">
+                            <i class="bi bi-person-fill"></i>
+                            <span>Ditulis oleh <strong>Dr. Andi Wijaya</strong></span>
+                        </div>  
+                        <div class="date">
+                            <i class="bi bi-calendar3"></i>
+                            <span>Diterbitkan pada <time>1 Maret 2024</time></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="article-image">
+                    <img src="../static/home/assets/images/article5.png" 
+                         alt="Perubahan bentuk pada tahi lalat?">
+                </div>
+                
+                <div class="article-content">
+                    <p>
+                        Sinar ultraviolet (UV) dari matahari merupakan salah satu faktor risiko utama terjadinya kanker kulit dan penuaan dini. Meskipun paparan sinar matahari penting untuk kesehatan, khususnya produksi vitamin D, paparan berlebihan dapat membahayakan kulit. Memahami cara melindungi diri dari sinar UV sangat penting untuk menjaga kesehatan kulit jangka panjang.
+                    </p>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-info-circle-fill me-2"></i>Fakta Penting</h3>
+                        <p>95% kasus kanker kulit disebabkan oleh paparan sinar UV berlebihan. Kerusakan kulit akibat sinar UV bersifat kumulatif, artinya semakin sering terpapar, semakin tinggi risikonya. Perlindungan sejak dini sangat penting untuk mencegah masalah kulit di masa depan.</p>
+                    </div>
+                 
+                    
+                    <h2>Memahami Jenis Sinar UV</h2>
+                    <p>
+                        Ada tiga jenis sinar UV yang perlu diketahui, masing-masing memiliki efek berbeda pada kulit.
+                    </p>
+                    
+                    <div class="info-box">
+                        <h3><i class="bi bi-sun-fill me-2"></i>Jenis-jenis Sinar UV:</h3>
+                        <ul class="mb-0">
+                            <li><strong>UVA (Aging)</strong>: Penyebab penuaan dini dan kerusakan kulit jangka panjang</li>
+                            <li><strong>UVB (Burning)</strong>: Penyebab utama kulit terbakar dan kemerahan</li>
+                            <li><strong>UVC</strong>: Terserap oleh lapisan ozon, jarang mencapai permukaan bumi</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Strategi Perlindungan dari Sinar UV</h2>
+                    <p>
+                        Perlindungan optimal dari sinar UV membutuhkan pendekatan menyeluruh yang melibatkan beberapa strategi berbeda.
+                    </p>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-shield-fill-check me-2"></i>Langkah-langkah Perlindungan:</h3>
+                        <ul class="mb-0">
+                            <li><strong>Penggunaan Tabir Surya:</strong>
+                                <ul>
+                                    <li>Pilih SPF minimal 30</li>
+                                    <li>Aplikasikan 15-30 menit sebelum aktivitas luar ruangan</li>
+                                    <li>Ulangi setiap 2 jam atau setelah berenang/berkeringat</li>
+                                </ul>
+                            </li>
+                            <li><strong>Pakaian Pelindung:</strong>
+                                <ul>
+                                    <li>Kenakan pakaian lengan panjang</li>
+                                    <li>Pilih bahan dengan UPF (Ultraviolet Protection Factor)</li>
+                                    <li>Gunakan topi lebar untuk melindungi wajah</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Waktu dan Lokasi yang Perlu Diperhatikan</h2>
+                    <p>
+                        Memahami kapan dan di mana risiko paparan UV tertinggi dapat membantu dalam mengambil tindakan pencegahan yang tepat.
+                    </p>
+
+                    <blockquote>
+                        <p>Perhatikan waktu dan kondisi berikut saat beraktivitas di luar ruangan:</p>
+                    </blockquote>
+
+                    <div class="info-box">
+                        <h3><i class="bi bi-clock-fill me-2"></i>Waktu Berisiko Tinggi:</h3>
+                        <ul class="mb-0">
+                            <li><strong>Jam Rawan:</strong>
+                                <ul>
+                                    <li>Pukul 10:00 - 16:00</li>
+                                    <li>Saat bayangan lebih pendek dari tinggi badan</li>
+                                    <li>Hari-hari cerah tanpa awan</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lokasi Berisiko:</strong>
+                                <ul>
+                                    <li>Pantai dan area perairan</li>
+                                    <li>Daerah dengan ketinggian tinggi</li>
+                                    <li>Area terbuka tanpa naungan</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box" style="background-color: #fff3cd; border-color: #ffeeba;">
+                        <h3><i class="bi bi-exclamation-triangle me-2" style="color: #856404;"></i>Situasi yang Membutuhkan Ekstra Perlindungan:</h3>
+                        <ul class="mb-0">
+                            <li><strong>Kondisi Lingkungan:</strong>
+                                <ul>
+                                    <li>Saat berada di dekat permukaan yang memantulkan (air, pasir, salju)</li>
+                                    <li>Pada ketinggian tinggi dimana intensitas UV lebih kuat</li>
+                                    <li>Saat indeks UV menunjukkan level tinggi</li>
+                                </ul>
+                            </li>
+                            <li><strong>Kondisi Pribadi:</strong>
+                                <ul>
+                                    <li>Memiliki kulit sensitif atau mudah terbakar</li>
+                                    <li>Sedang menggunakan obat yang meningkatkan sensitivitas terhadap UV</li>
+                                    <li>Memiliki riwayat kanker kulit dalam keluarga</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Tips Tambahan Perlindungan UV</h2>
+                    <div class="info-box">
+                        <h3><i class="bi bi-lightbulb-fill me-2"></i>Rekomendasi Tambahan:</h3>
+                        <ul class="mb-0">
+                            <li><strong>Perlindungan Sehari-hari:</strong>
+                                <ul>
+                                    <li>Gunakan kacamata UV protection</li>
+                                    <li>Cari tempat teduh saat beraktivitas luar ruangan</li>
+                                    <li>Perhatikan indeks UV harian</li>
+                                </ul>
+                            </li>
+                            <li><strong>Perawatan Pasca Paparan:</strong>
+                                <ul>
+                                    <li>Gunakan pelembab untuk menjaga hidrasi kulit</li>
+                                    <li>Perhatikan tanda-tanda kulit terbakar</li>
+                                    <li>Tingkatkan asupan air untuk hidrasi internal</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box" style="background-color: #ffe5e5; border-color: #ffb3b3;">
+                        <h3><i class="bi bi-exclamation-circle-fill me-2" style="color: #cc0000;"></i>Kapan Harus ke Dokter?</h3>
+                        <p>Segera konsultasi dengan dokter jika mengalami:</p>
+                        <ul class="mb-0">
+                            <li>Luka bakar matahari yang parah dengan melepuh</li>
+                            <li>Demam atau menggigil setelah terpapar matahari</li>
+                            <li>Perubahan pada tahi lalat atau bintik di kulit</li>
+                            <li>Reaksi alergi terhadap sinar matahari</li>
+                            <li>Gejala dehidrasi setelah aktivitas di bawah matahari</li>
+                        </ul>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-3" style="background-color: #137483;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <p class="mb-0">Tunggu Apa Lagi?</p>
+                        <button class="btn btn-outline-light btn-sm px-4" style="border-radius: 15px;" onclick="window.location.href='/detect'">Deteksi Sekarang</button>
+                    </div>
+                    <hr class="my-3" style="background-color: rgba(255,255,255,0.1);">
+                    <p class="mb-0" style="font-size: 0.9rem;">Skin Cancer Detector</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="{{ url_for('static', filename='article/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
+  
+</body>
+</html>
