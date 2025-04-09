@@ -1,4 +1,4 @@
 .env
 venv/
 flask_session/
-
+model/
