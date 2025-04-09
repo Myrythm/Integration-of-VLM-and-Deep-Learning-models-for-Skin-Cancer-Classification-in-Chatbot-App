@@ -1,7 +1,7 @@
 .env
 venv/
 flask_session/
-model/
+model/skinCancer.h5
 
 
 
