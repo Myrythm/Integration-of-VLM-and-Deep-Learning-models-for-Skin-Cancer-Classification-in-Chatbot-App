@@ -516,7 +516,7 @@ body.light-mode .upload-card-container {
     border-top: 1px solid var(--border-color);
     max-height: 300px;
     padding: 10px 0;
-    position: sticky;
+    position: fixed;
     bottom: 0;
     z-index: 10;
     transition: background 0.3s, border-color 0.3s;
@@ -855,5 +855,28 @@ body.light-mode .upload-card-container {
     .input-container textarea {
         font-size: 0.9rem;
     }
+}
+
+.message-content {
+    text-align: left;
+    word-wrap: break-word;
+}
+
+/* Styling untuk teks yang diawali dengan ### */
+.message-content p {
+    margin-bottom: 10px;
+}
+
+.message-content p:has(strong:first-child):first-letter {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Mengatur tampilan teks yang diawali ### */
+.message-content p:has(strong:first-child) strong:first-child {
+    font-size: 1.2em;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 5px;
 }
 

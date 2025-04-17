@@ -159,6 +159,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Fungsi untuk mengganti **teks** dengan <strong>teks</strong> dan ### dengan <strong>
+    function processText(text) {
+        // Ganti teks yang dibungkus dengan ** ** menjadi <strong>
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        // Ganti baris yang dimulai dengan ### menjadi <strong>
+        text = text.replace(/^###\s*(.*?)$/gm, '<strong>$1</strong>');
+        
+        return text;
+    }
+
     // Fungsi untuk membuat elemen pesan
     function createMessageElement(type, text) {
         const msgWrapper = document.createElement('div');
@@ -167,15 +178,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const content = document.createElement('div');
         content.className = 'message-content';
     
-        // Fungsi untuk mengganti **teks** dengan <strong>teks</strong>
-        function replaceBold(text) {
-            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        }
+        // Proses teks menggunakan fungsi processText
+        const processedText = processText(text);
     
-        // Ganti teks yang dibungkus dengan ** ** menjadi <strong>
-        const processedText = replaceBold(text);
-    
-        // Bersihkan HTML menggunakan DOMPurify untuk mencegah XSS
+        // Bersihkan HTML menggunakan DOMPurify
         const cleanHtml = DOMPurify.sanitize(processedText);
     
         // Tetapkan HTML yang sudah dibersihkan ke elemen konten

@@ -30,10 +30,6 @@ def detect():
 
     file = request.files['image']
 
-    # Check if filename is empty
-    if file.filename == '':
-        return jsonify({'error': 'Nama file kosong'}), 400
-
     # Process valid image file
     if file and allowed_file(file.filename):
         try:
@@ -125,24 +121,3 @@ def get_response():
         print(f"Error in get_response: {str(e)}")
         return jsonify({"reply": "Maaf, terjadi kesalahan dalam memproses permintaan Anda. Silakan coba lagi nanti."}), 500
 
-@api.route('/clear_history', methods=['POST'])
-def clear_history():
-    """Clear conversation and detection history"""
-    try:
-        session['conversation_history'] = []
-        session['detection_history'] = []
-        session.modified = True
-        return jsonify({"status": "success", "message": "Riwayat percakapan dan deteksi telah dihapus"})
-    except Exception as e:
-        print(f"Error clearing history: {str(e)}")
-        return jsonify({"status": "error", "message": "Gagal menghapus riwayat"}), 500
-
-@api.route('/get_detection_history', methods=['GET'])
-def get_detection_history():
-    """Return detection history from session"""
-    try:
-        detection_history = session.get('detection_history', [])
-        return jsonify({"history": detection_history})
-    except Exception as e:
-        print(f"Error getting detection history: {str(e)}")
-        return jsonify({"error": "Gagal mengambil riwayat deteksi"}), 500 

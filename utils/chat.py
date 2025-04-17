@@ -128,7 +128,7 @@ def get_chat_response(user_message, detection_result=None):
         except Exception as api_error:
             print(f"API Error: {str(api_error)}")
             # Return a fallback response if API call fails
-            return "Maaf, saya mengalami kesalahan dalam memproses permintaan Anda. Silakan coba lagi atau hubungi administrator."
+            return "Maaf, saya mengalami kesalahan dalam memproses permintaan Anda. Silakan coba lagi nanti."
         
     except Exception as e:
         print(f"Error in get_chat_response: {str(e)}")
