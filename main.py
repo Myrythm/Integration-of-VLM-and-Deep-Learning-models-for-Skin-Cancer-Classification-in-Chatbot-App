@@ -15,6 +15,8 @@ templates = Jinja2Templates(directory="templates")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from utils.rag.logging_config import setup_logging
+    setup_logging()
     initialize_app_state()
     yield
 

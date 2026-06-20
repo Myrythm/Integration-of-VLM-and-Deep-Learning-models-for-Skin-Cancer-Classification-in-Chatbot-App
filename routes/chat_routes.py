@@ -1,4 +1,5 @@
 import json
+import time
 
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
@@ -56,6 +57,7 @@ async def chat(request: ChatRequest) -> StreamingResponse:
 
     async def event_stream():
         nonlocal full_response
+        start = time.time()
         try:
             async for chunk in chain.astream({
                 "question": request.message,
@@ -81,6 +83,19 @@ async def chat(request: ChatRequest) -> StreamingResponse:
                     citations=format_for_ui(chunks_meta, cited),
                     language=language,
                 ).model_dump())
+
+            from utils.rag.logging_config import log_query
+            log_query(
+                session_id=request.session_id,
+                query=request.message,
+                language=language,
+                num_chunks_retrieved=0,
+                num_chunks_after_filter=0,
+                citations_used=cited,
+                tokens_in=0,
+                tokens_out=0,
+                response_time_ms=int((time.time() - start) * 1000),
+            )
 
             yield _sse(ChatChunk(type="done", language=language).model_dump())
         except Exception as e:
