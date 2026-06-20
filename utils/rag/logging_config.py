@@ -26,6 +26,7 @@ def setup_logging(log_path: str = "logs/rag_usage.log") -> None:
     console_handler.setFormatter(formatter)
 
     rag_logger = logging.getLogger("rag")
+    rag_logger.handlers.clear()
     rag_logger.setLevel(logging.INFO)
     rag_logger.addHandler(file_handler)
     rag_logger.addHandler(console_handler)

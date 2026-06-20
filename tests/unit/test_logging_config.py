@@ -23,3 +23,12 @@ def test_setup_logging_creates_logger() -> None:
     assert logger.level <= logging.INFO
     assert logger.propagate is False
     assert len(logger.handlers) >= 1
+
+
+def test_setup_logging_is_idempotent() -> None:
+    """Repeated calls must not stack handlers (e.g. on worker reload or test rerun)."""
+    setup_logging(log_path="/tmp/test_rag.log")
+    setup_logging(log_path="/tmp/test_rag.log")
+    setup_logging(log_path="/tmp/test_rag.log")
+    logger = logging.getLogger("rag")
+    assert len(logger.handlers) == 2
