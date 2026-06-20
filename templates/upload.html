@@ -1,5 +1,76 @@
 {% extends "base.html" %}
 {% block title %}Upload Foto Lesi — SkinVision{% endblock %}
 {% block content %}
-<h1>Upload Foto Lesi</h1>
+
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+        Upload Foto Lesi
+    </h1>
+
+    <div id="drop-zone"
+         class="border-2 border-dashed border-teal-600 dark:border-teal-500 rounded-lg p-8 text-center cursor-pointer hover:bg-teal-50 dark:hover:bg-teal-900/10 transition-colors">
+        <p class="text-sm text-slate-700 dark:text-slate-300">Pilih atau drop foto di sini</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Format: PNG, JPG, WEBP — Maksimal: 10 MB</p>
+        <button type="button" onclick="document.getElementById('file-input').click()"
+                class="mt-4 px-4 py-2 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white text-sm font-medium rounded-lg transition-colors">
+            Pilih File
+        </button>
+        <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" class="hidden">
+    </div>
+
+    <div id="preview-container" class="hidden">
+        <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Preview</p>
+        <img id="preview-img" class="max-h-48 rounded-lg border border-slate-200 dark:border-slate-700" alt="Preview">
+    </div>
+
+    <div class="text-sm text-slate-700 dark:text-slate-300">
+        <p class="font-medium mb-2">Tips Foto yang Baik:</p>
+        <ul class="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-400">
+            <li>Pencahayaan terang, tidak silau</li>
+            <li>Fokus pada lesi, background netral</li>
+            <li>Jarak 10-15 cm, foto tajam</li>
+            <li>Satu lesi per foto</li>
+        </ul>
+    </div>
+
+    <button id="classify-btn" disabled
+            class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Klasifikasikan
+    </button>
+
+    <div id="result" class="hidden space-y-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            Hasil Klasifikasi
+        </h2>
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4 space-y-2">
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Diagnosis</span>
+                <span id="result-label" class="text-sm font-bold text-slate-900 dark:text-slate-100"></span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Confidence</span>
+                <div class="flex items-center gap-2">
+                    <div class="w-32 bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                        <div id="result-bar" class="bg-teal-600 dark:bg-teal-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                    </div>
+                    <span id="result-confidence" class="text-sm font-mono text-slate-700 dark:text-slate-300"></span>
+                    <span id="result-level" class="text-xs font-medium text-slate-500 dark:text-slate-400"></span>
+                </div>
+            </div>
+            <p class="text-xs font-mono text-slate-400 dark:text-slate-500" id="result-model"></p>
+        </div>
+        <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-600 dark:border-amber-500 px-4 py-2 text-sm text-amber-800 dark:text-amber-200">
+            Hasil AI bisa keliru. Konfirmasi dengan dokter spesialis kulit.
+        </div>
+        <a id="chat-link" href="#"
+           class="inline-block px-5 py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white text-sm font-medium rounded-lg transition-colors">
+            Konsultasi Chatbot
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/upload.js"></script>
 {% endblock %}
