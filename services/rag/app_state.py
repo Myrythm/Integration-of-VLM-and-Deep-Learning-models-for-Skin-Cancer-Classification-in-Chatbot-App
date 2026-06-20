@@ -31,7 +31,7 @@ def initialize_app_state() -> None:
     _memory = SessionMemory(max_turns=6)
 
 
-def get_settings() -> Settings:
+def get_app_settings() -> Settings:
     if _settings is None:
         raise RuntimeError("App state not initialized. Call initialize_app_state() in lifespan.")
     return _settings
