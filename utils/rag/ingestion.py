@@ -90,15 +90,25 @@ def ingest_directory(source: str) -> int:
         print(f"No .md or .json files found in {src_dir}")
         return 0
 
+    from utils.rag.cache import EmbeddingCache
+    cache = EmbeddingCache()
     embedder = get_embedder(settings)
     vector_store = get_vector_store(settings)
 
     batch_size = 100
     for i in range(0, len(all_chunks), batch_size):
         batch = all_chunks[i : i + batch_size]
-        embeddings = embedder.embed_documents([c["text"] for c in batch])
-        vector_store.upsert(batch, embeddings)
-        print(f"Ingested batch {i // batch_size + 1}: {len(batch)} chunks")
+        texts = [c["text"] for c in batch]
+        cached = [cache.get(t) for t in texts]
+        missing_idx = [j for j, v in enumerate(cached) if v is None]
+        missing_texts = [texts[j] for j in missing_idx]
+        if missing_texts:
+            new_embeddings = embedder.embed_documents(missing_texts)
+            for j, emb in zip(missing_idx, new_embeddings):
+                cached[j] = emb
+                cache.set(texts[j], emb)
+        vector_store.upsert(batch, cached)
+        print(f"Ingested batch {i // batch_size + 1}: {len(batch)} chunks (cache hits: {len(texts) - len(missing_idx)})")
 
     return len(all_chunks)
 
