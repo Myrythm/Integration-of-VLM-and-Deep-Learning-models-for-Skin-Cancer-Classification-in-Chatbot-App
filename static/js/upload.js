@@ -84,9 +84,9 @@
             resultCard.classList.remove("hidden");
             resultCard.scrollIntoView({ behavior: "smooth" });
 
-            document.getElementById("chat-btn").onclick = function () {
+            setTimeout(function () {
                 window.location.href = "/chat";
-            };
+            }, 1500);
         } catch (err) {
             alert("Error: " + err.message);
         } finally {
