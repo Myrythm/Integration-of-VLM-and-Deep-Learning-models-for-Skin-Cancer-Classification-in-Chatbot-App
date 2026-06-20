@@ -50,9 +50,26 @@ class ChromaProvider:
         return out
 
 
+class PineconeProvider:
+    """Stub: Phase 3 placeholder. Implement with `langchain-pinecone` when needed."""
+
+    def __init__(self, settings: Settings) -> None:
+        self._settings = settings
+        raise NotImplementedError(
+            "PineconeProvider not yet implemented. Install langchain-pinecone and "
+            "implement similarity_search/upsert. See https://docs.pinecone.io"
+        )
+
+    def upsert(self, chunks: list[dict], embeddings: list[list[float]]) -> None:
+        raise NotImplementedError
+
+    def similarity_search(self, query_embedding: list[float], k: int) -> list[dict]:
+        raise NotImplementedError
+
+
 def get_vector_store(settings: Settings) -> VectorStoreProvider:
     if settings.vector_store_backend == "chroma":
         return ChromaProvider(settings)
     if settings.vector_store_backend == "pinecone":
-        raise NotImplementedError("PineconeProvider not yet implemented (Phase 3 stub)")
+        return PineconeProvider(settings)
     raise ValueError(f"Unknown vector store backend: {settings.vector_store_backend}")
