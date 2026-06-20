@@ -1,5 +1,6 @@
 import argparse
 import hashlib
+import json
 from pathlib import Path
 
 import frontmatter
@@ -15,6 +16,34 @@ SPLITTER = RecursiveCharacterTextSplitter(
     chunk_overlap=100,
     separators=["\n\n", "\n", ". ", " ", ""],
 )
+
+
+def parse_pubmed_json(path: Path) -> list[dict]:
+    """Parse a PubMed abstract JSON file into chunk dicts."""
+    data = json.loads(path.read_text(encoding="utf-8"))
+    pmid = data.get("pmid", "")
+    abstract = data.get("abstract", "")
+    if not abstract:
+        return []
+    text = f"{data.get('title', '')}\n\n{abstract}"
+    chunks = SPLITTER.split_text(text)
+    out = []
+    for i, chunk_text in enumerate(chunks):
+        chunk_id = hashlib.sha256(f"pubmed:{pmid}::{i}".encode()).hexdigest()
+        out.append({
+            "id": f"sha256:{chunk_id}",
+            "text": chunk_text,
+            "metadata": {
+                "source": "pubmed",
+                "url": data.get("url", ""),
+                "title": data.get("title", ""),
+                "publish_date": data.get("publish_date", ""),
+                "language": "en",
+                "pmid": pmid,
+                "journal": data.get("journal", ""),
+            },
+        })
+    return out
 
 
 def parse_markdown_file(path: Path) -> list[dict]:
@@ -51,11 +80,14 @@ def ingest_directory(source: str) -> int:
         raise FileNotFoundError(f"Knowledge base directory not found: {src_dir}")
 
     all_chunks: list[dict] = []
-    for md_file in sorted(src_dir.glob("*.md")):
-        all_chunks.extend(parse_markdown_file(md_file))
+    for f in sorted(src_dir.iterdir()):
+        if f.suffix == ".md":
+            all_chunks.extend(parse_markdown_file(f))
+        elif f.suffix == ".json" and source == "pubmed":
+            all_chunks.extend(parse_pubmed_json(f))
 
     if not all_chunks:
-        print(f"No markdown files found in {src_dir}")
+        print(f"No .md or .json files found in {src_dir}")
         return 0
 
     embedder = get_embedder(settings)
