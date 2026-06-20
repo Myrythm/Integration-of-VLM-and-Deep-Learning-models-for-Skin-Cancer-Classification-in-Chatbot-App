@@ -1,43 +1,47 @@
 {% extends "base.html" %}
-{% block title %}Chat — SkinVision{% endblock %}
+{% block title %}Chatbot — SkinVision{% endblock %}
+{% block main_class %}{% endblock %}
+
 {% block content %}
+<div class="flex flex-col h-screen pt-16">
 
-<div class="space-y-4">
-    <a href="/upload" class="text-sm text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400">
-        ← Kembali ke Upload
-    </a>
-
-    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Konteks Klasifikasi</p>
-        <p class="text-sm font-mono text-slate-700 dark:text-slate-300 mt-1">
-            <span id="ctx-label">{{ label }}</span> · <span id="ctx-confidence">{{ (confidence * 100)|round(2) }}%</span> · EfficientNetB3-v1
-        </p>
+    <div class="max-w-3xl mx-auto w-full px-4 py-3 flex items-center justify-between">
+        <a href="/upload" class="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+        <div id="context-badge" class="hidden items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full text-xs font-medium">
+            <i class="bi bi-image text-teal-500"></i>
+            <span id="ctx-text"></span>
+        </div>
     </div>
 
-    <div id="chat-area" class="space-y-4 min-h-[300px] max-h-[60vh] overflow-y-auto pb-4">
+    <div id="chat-area" class="flex-1 overflow-y-auto chat-scroll max-w-3xl mx-auto w-full px-4 py-4 space-y-4">
     </div>
 
-    <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-600 dark:border-amber-500 px-4 py-2 text-sm text-amber-800 dark:text-amber-200">
-        ⚠ Asisten AI untuk edukasi. Bukan nasihat medis. Konsultasi dokter spesialis kulit (Sp.KK).
+    <div id="prompt-bubbles" class="max-w-3xl mx-auto w-full px-4 pb-2 flex gap-2 overflow-x-auto chat-scroll">
     </div>
 
-    <div class="flex gap-2">
-        <textarea id="chat-input" rows="2" placeholder="Ketik pesan..."
-                  class="flex-1 px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-800 dark:text-slate-200 focus:outline-none focus:border-teal-600 dark:focus:border-teal-500 resize-none"></textarea>
-        <button id="send-btn" onclick="sendMessage()"
-                class="px-4 py-2 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white text-sm font-medium rounded-lg transition-colors">
-            →
-        </button>
+    <div class="max-w-3xl mx-auto w-full px-4 pb-4">
+        <div class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2 mb-2 flex items-center gap-2">
+            <i class="bi bi-exclamation-triangle text-amber-600 dark:text-amber-400 text-xs"></i>
+            <p class="text-xs text-amber-700 dark:text-amber-300">Asisten AI untuk edukasi. Bukan nasihat medis. Konsultasi dokter Sp.KK.</p>
+        </div>
+        <div class="flex gap-2 items-end">
+            <div class="flex-1 relative">
+                <textarea id="chat-input" rows="1" placeholder="Ketik pertanyaan Anda di sini..."
+                          class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"></textarea>
+            </div>
+            <button id="send-btn" class="w-11 h-11 flex-shrink-0 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-full flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+        <p class="text-center text-xs text-slate-400 dark:text-slate-600 mt-2">Bot mungkin melakukan kesalahan</p>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts %}
-<script>
-    window.CHAT_SESSION = "{{ session }}";
-    window.CHAT_LABEL = "{{ label }}";
-    window.CHAT_CONFIDENCE = {{ confidence }};
-</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
 <script src="/static/js/chat.js"></script>
 {% endblock %}

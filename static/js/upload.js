@@ -1,93 +1,98 @@
 (function () {
     const dropZone = document.getElementById("drop-zone");
     const fileInput = document.getElementById("file-input");
-    const previewContainer = document.getElementById("preview-container");
+    const placeholder = document.getElementById("upload-placeholder");
+    const previewWrapper = document.getElementById("preview-wrapper");
     const previewImg = document.getElementById("preview-img");
-    const classifyBtn = document.getElementById("classify-btn");
-    const resultDiv = document.getElementById("result");
-    let selectedFile = null;
+    const detectBtn = document.getElementById("detect-btn");
+    const detectBtnText = document.getElementById("detect-btn-text");
+    const loading = document.getElementById("loading");
+    const resultCard = document.getElementById("result-card");
+    let uploadedFile = null;
+    let previewSrc = null;
 
     function handleFile(file) {
         if (!file) return;
         if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
-            alert("Format tidak didukung. Gunakan PNG, JPG, atau WEBP.");
+            alert("Format tidak didukung. Gunakan JPG, PNG, atau WEBP.");
             return;
         }
         if (file.size > 10 * 1024 * 1024) {
             alert("File terlalu besar. Maksimal 10 MB.");
             return;
         }
-        selectedFile = file;
+        uploadedFile = file;
         const reader = new FileReader();
         reader.onload = function (e) {
-            previewImg.src = e.target.result;
-            previewContainer.classList.remove("hidden");
+            previewSrc = e.target.result;
+            previewImg.src = previewSrc;
+            previewWrapper.classList.remove("hidden");
+            placeholder.classList.add("hidden");
+            detectBtn.disabled = false;
         };
         reader.readAsDataURL(file);
-        classifyBtn.disabled = false;
     }
 
-    fileInput.addEventListener("change", function (e) {
-        handleFile(e.target.files[0]);
-    });
+    fileInput.addEventListener("change", function (e) { handleFile(e.target.files[0]); });
 
     dropZone.addEventListener("dragover", function (e) {
         e.preventDefault();
         dropZone.classList.add("bg-teal-50", "dark:bg-teal-900/10");
     });
-
     dropZone.addEventListener("dragleave", function () {
         dropZone.classList.remove("bg-teal-50", "dark:bg-teal-900/10");
     });
-
     dropZone.addEventListener("drop", function (e) {
         e.preventDefault();
         dropZone.classList.remove("bg-teal-50", "dark:bg-teal-900/10");
         handleFile(e.dataTransfer.files[0]);
     });
 
-    classifyBtn.addEventListener("click", async function () {
-        if (!selectedFile) return;
-        classifyBtn.disabled = true;
-        classifyBtn.textContent = "Memproses...";
+    detectBtn.addEventListener("click", async function () {
+        if (!uploadedFile) return;
+        detectBtn.disabled = true;
+        detectBtnText.textContent = "Memproses...";
+        loading.classList.remove("hidden");
+        resultCard.classList.add("hidden");
 
         const formData = new FormData();
-        formData.append("file", selectedFile);
+        formData.append("file", uploadedFile);
 
         try {
-            const response = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                throw new Error(err.detail || "Gagal mengklasifikasi");
+            const res = await fetch("/api/upload", { method: "POST", body: formData });
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.detail || "Gagal memproses");
             }
-            const data = await response.json();
+            const data = await res.json();
             const det = data.detection;
             const conf = (det.confidence * 100).toFixed(2);
             const level = det.confidence >= 0.8 ? "Tinggi" : det.confidence >= 0.5 ? "Sedang" : "Rendah";
-            const levelColor = det.confidence >= 0.8 ? "text-green-700 dark:text-green-400" : det.confidence >= 0.5 ? "text-amber-700 dark:text-amber-400" : "text-red-700 dark:text-red-400";
+            const levelColor = det.confidence >= 0.8 ? "text-green-600 dark:text-green-400" : det.confidence >= 0.5 ? "text-amber-600 dark:text-amber-400" : "text-red-600 dark:text-red-400";
 
             document.getElementById("result-label").textContent = det.label;
             document.getElementById("result-confidence").textContent = conf + "%";
             document.getElementById("result-bar").style.width = conf + "%";
             const levelEl = document.getElementById("result-level");
             levelEl.textContent = level;
-            levelEl.className = "text-xs font-medium " + levelColor;
+            levelEl.className = "text-xs font-medium text-right " + levelColor;
             document.getElementById("result-model").textContent = "Model: " + det.model_version;
 
-            const chatUrl = "/chat?session=" + encodeURIComponent(data.chat_session_id) +
-                "&label=" + encodeURIComponent(det.label) +
-                "&confidence=" + encodeURIComponent(det.confidence);
-            document.getElementById("chat-link").href = chatUrl;
+            sessionStorage.setItem("detectionResult", JSON.stringify(data));
+            sessionStorage.setItem("uploadedImage", previewSrc);
 
-            resultDiv.classList.remove("hidden");
+            resultCard.classList.remove("hidden");
+            resultCard.scrollIntoView({ behavior: "smooth" });
+
+            document.getElementById("chat-btn").onclick = function () {
+                window.location.href = "/chat";
+            };
         } catch (err) {
             alert("Error: " + err.message);
         } finally {
-            classifyBtn.disabled = false;
-            classifyBtn.textContent = "Klasifikasikan";
+            loading.classList.add("hidden");
+            detectBtn.disabled = false;
+            detectBtnText.textContent = "Deteksi Gambar";
         }
     });
 })();
