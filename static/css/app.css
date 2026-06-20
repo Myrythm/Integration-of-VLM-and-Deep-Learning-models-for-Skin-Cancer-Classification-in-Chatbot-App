@@ -1,1 +1,27 @@
-/* Custom styles — populated in Task 3 */
+:root {
+    --color-bg: #fafaf9;
+    --color-surface: #ffffff;
+    --color-text: #1e293b;
+    --color-text-muted: #64748b;
+    --color-primary: #0d9488;
+    --color-primary-dark: #0f766e;
+    --color-accent: #d97706;
+    --color-success: #15803d;
+    --color-border: #e2e8f0;
+}
+
+html.dark {
+    --color-bg: #0f172a;
+    --color-surface: #1e293b;
+    --color-text: #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --color-primary: #14b8a6;
+    --color-primary-dark: #0d9488;
+    --color-accent: #f59e0b;
+    --color-success: #22c55e;
+    --color-border: #334155;
+}
+
+body {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
