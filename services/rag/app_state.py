@@ -57,12 +57,15 @@ def get_memory() -> SessionMemory:
 class _ChromaLangChainRetriever(BaseRetriever):
     """Adapter: bridges Embedder + VectorStoreProvider to LangChain retriever interface."""
 
-    _embedder: Any
-    _vector_store: Any
-    _k: int
+    _embedder: Any = None
+    _vector_store: Any = None
+    _k: int = 10
 
-    def __init__(self, embedder, vector_store, settings) -> None:
-        super().__init__()
+    class Config:
+        arbitrary_types_allowed = True
+
+    def __init__(self, embedder: Any, vector_store: Any, settings: Any, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
         self._embedder = embedder
         self._vector_store = vector_store
         self._k = settings.rag_retrieve_k
@@ -70,6 +73,7 @@ class _ChromaLangChainRetriever(BaseRetriever):
     def _get_relevant_documents(
         self, query: str, *, run_manager: CallbackManagerForRetrieverRun
     ) -> list[Document]:
+        _ = run_manager
         embedding = self._embedder.embed_query(query)
         results = self._vector_store.similarity_search(embedding, self._k)
         return [
