@@ -1,31 +1,27 @@
-import os
-from dotenv import load_dotenv
-from flask_session import Session
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Load environment variables
-load_dotenv()
 
-# Flask configuration
-def init_app(app):
-    app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SESSION_TYPE'] = 'filesystem'
-    Session(app)
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    # Configure upload folder
-    UPLOAD_FOLDER = 'static/uploads/'
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    llm_backend: str = "openai"
+    openai_api_key: str = ""
+    openai_model: str = "gpt-4o-mini"
+    openai_embedding_model: str = "text-embedding-3-small"
 
-# File configuration
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+    vector_store_backend: str = "chroma"
+    chroma_path: str = "./data/chroma_db"
+    chroma_collection: str = "skin_rag_v1"
 
-# Model labels
-LABELS = [
-    'Karsinoma Sel Basal',
-    'Karsinoma Sel Skuamosa', 
-    'Melanoma',
-    'Nevus'
-]
+    rag_similarity_threshold: float = 0.7
+    rag_top_k: int = 5
+    rag_retrieve_k: int = 10
 
-# OpenAI configuration
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") 
+    session_secret_key: str = "dev-secret-change-me"
+
+    host: str = "0.0.0.0"
+    port: int = 8000
+
+
+def get_settings() -> Settings:
+    return Settings()
