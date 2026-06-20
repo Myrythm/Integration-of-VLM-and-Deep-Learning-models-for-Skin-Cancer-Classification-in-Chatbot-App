@@ -60,11 +60,12 @@
 
         try {
             const res = await fetch("/api/upload", { method: "POST", body: formData });
+            const text = await res.text();
+            let data;
+            try { data = JSON.parse(text); } catch { data = { detail: text || "Server error" }; }
             if (!res.ok) {
-                const err = await res.json();
-                throw new Error(err.detail || "Gagal memproses");
+                throw new Error(data.detail || "Gagal memproses (" + res.status + ")");
             }
-            const data = await res.json();
             const det = data.detection;
             const conf = (det.confidence * 100).toFixed(2);
             const level = det.confidence >= 0.8 ? "Tinggi" : det.confidence >= 0.5 ? "Sedang" : "Rendah";
