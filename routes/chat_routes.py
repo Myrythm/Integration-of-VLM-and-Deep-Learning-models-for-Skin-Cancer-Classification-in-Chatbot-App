@@ -6,7 +6,7 @@ from fastapi.responses import StreamingResponse
 
 from schemas.chat import ChatChunk, ChatRequest
 from utils.rag.app_state import get_chain, get_memory
-from utils.rag.citation import extract_citations, format_for_ui
+from utils.rag.citation import format_for_ui
 from utils.rag.disclaimer import DISCLAIMERS, force_append_disclaimer
 from utils.rag.language import detect_language
 from utils.rag.safety import classify_query_danger
@@ -52,46 +52,62 @@ async def chat(request: ChatRequest) -> StreamingResponse:
         request.detection.model_dump_json() if request.detection else "No prior detection."
     )
 
-    full_response = ""
-    retrieved_docs: list[dict] = []
+    chain_input = {
+        "question": request.message,
+        "chat_history": chat_history,
+        "detection": detection_str,
+        "language": language,
+        "disclaimer": DISCLAIMERS[language],
+    }
 
     async def event_stream():
-        nonlocal full_response
         start = time.time()
+        full_response = ""
+        retrieved_docs: list = []
         try:
-            async for chunk in chain.astream({
-                "question": request.message,
-                "chat_history": chat_history,
-                "detection": detection_str,
-                "language": language,
-                "disclaimer": DISCLAIMERS[language],
-            }):
-                if isinstance(chunk, dict) and "retrieved_docs" in chunk:
-                    retrieved_docs.extend(chunk["retrieved_docs"])
-                token = chunk.content if hasattr(chunk, "content") else str(chunk)
-                full_response += token
-                yield _sse(ChatChunk(type="token", content=token, language=language).model_dump())
+            async for event in chain.astream_events(
+                chain_input, version="v2"
+            ):
+                kind = event["event"]
+                if kind == "on_chain_end":
+                    output = event["data"].get("output")
+                    if (
+                        isinstance(output, dict)
+                        and "retrieved_docs" in output
+                        and retrieved_docs == []
+                    ):
+                        retrieved_docs = output["retrieved_docs"]
+                        if retrieved_docs:
+                            chunks_meta = [{"metadata": d.metadata} for d in retrieved_docs]
+                            citations = format_for_ui(
+                                chunks_meta, list(range(1, len(retrieved_docs) + 1))
+                            )
+                            yield _sse(ChatChunk(
+                                type="citation",
+                                citations=citations,
+                                language=language,
+                            ).model_dump())
+                elif kind == "on_llm_stream":
+                    chunk = event["data"].get("chunk")
+                    token = getattr(chunk, "content", "") or ""
+                    if token:
+                        full_response += token
+                        yield _sse(ChatChunk(
+                            type="token", content=token, language=language
+                        ).model_dump())
 
             full_response = force_append_disclaimer(full_response, language)
             await memory.add_turn(request.session_id, request.message, full_response)
 
-            cited = extract_citations(full_response)
-            if cited and retrieved_docs:
-                chunks_meta = [{"metadata": d.metadata} for d in retrieved_docs]
-                yield _sse(ChatChunk(
-                    type="citation",
-                    citations=format_for_ui(chunks_meta, cited),
-                    language=language,
-                ).model_dump())
-
             from utils.rag.logging_config import log_query
+            # TODO: tokens_in/tokens_out require non-streaming token counts; not yet wired.
             log_query(
                 session_id=request.session_id,
                 query=request.message,
                 language=language,
-                num_chunks_retrieved=0,
-                num_chunks_after_filter=0,
-                citations_used=cited,
+                num_chunks_retrieved=len(retrieved_docs),
+                num_chunks_after_filter=len(retrieved_docs),
+                citations_used=[],
                 tokens_in=0,
                 tokens_out=0,
                 response_time_ms=int((time.time() - start) * 1000),
