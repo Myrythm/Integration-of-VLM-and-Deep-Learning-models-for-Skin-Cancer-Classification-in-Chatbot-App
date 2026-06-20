@@ -117,7 +117,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Ingest knowledge base into vector store")
     parser.add_argument(
         "--source",
-        choices=["aad", "medlineplus", "dermnet", "all"],
+        choices=["aad", "medlineplus", "dermnet", "pubmed", "all"],
         required=True,
     )
     parser.add_argument("--rebuild", action="store_true", help="Wipe collection before ingest")
