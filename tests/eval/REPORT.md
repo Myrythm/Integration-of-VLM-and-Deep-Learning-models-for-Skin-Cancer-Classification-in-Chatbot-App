@@ -13,3 +13,16 @@ _Run `bash scripts/run_eval.sh` to populate this section._
 | Keyword coverage | > 80% | _filled by run_eval.sh_ |
 | ID/EN parity | Δ < 10% | _filled by run_eval.sh_ |
 | p95 latency | < 8s | _filled by run_eval.sh_ |
+
+## Threshold Sweep
+
+Run `python -m tests.eval.threshold_sweep` to find the optimal similarity threshold.
+
+| Threshold | recall@5 |
+|-----------|----------|
+| 0.5 | _filled by threshold_sweep.py_ |
+| 0.6 | _filled by threshold_sweep.py_ |
+| 0.7 | _filled by threshold_sweep.py_ |
+| 0.8 | _filled by threshold_sweep.py_ |
+
+**Recommended:** highest recall@5 that still produces quality citations.
