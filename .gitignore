@@ -1,3 +1,10 @@
-model/skinCancer.h5
+.venv/
+__pycache__/
+*.pyc
 .env
-venv/
+data/chroma_db/
+logs/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
