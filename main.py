@@ -5,14 +5,14 @@ from fastapi import FastAPI
 from config import get_settings
 from routes.api_routes import router as api_router
 from routes.chat_routes import router as chat_router
-from utils.rag.app_state import initialize_app_state
+from services.rag.app_state import initialize_app_state
 
 settings = get_settings()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from utils.rag.logging_config import setup_logging
+    from services.rag.logging_config import setup_logging
     setup_logging()
     initialize_app_state()
     yield

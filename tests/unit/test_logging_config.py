@@ -1,6 +1,6 @@
 import logging
 
-from utils.rag.logging_config import hash_query, setup_logging
+from services.rag.logging_config import hash_query, setup_logging
 
 
 def test_hash_query_deterministic() -> None:

@@ -11,14 +11,14 @@ from pathlib import Path
 from langchain_core.documents import Document
 
 from config import get_settings
-from utils.rag.app_state import initialize_app_state
-from utils.rag.citation import extract_citations
-from utils.rag.chain import format_docs
-from utils.rag.disclaimer import DISCLAIMERS
-from utils.rag.embedder import get_embedder
-from utils.rag.language import detect_language
-from utils.rag.prompt import build_prompt_template
-from utils.rag.vector_store import get_vector_store
+from services.rag.app_state import initialize_app_state
+from services.rag.citation import extract_citations
+from services.rag.chain import format_docs
+from services.rag.disclaimer import DISCLAIMERS
+from services.rag.embedder import get_embedder
+from services.rag.language import detect_language
+from services.rag.prompt import build_prompt_template
+from services.rag.vector_store import get_vector_store
 
 
 def evaluate_question(item: dict, chain_components: dict) -> dict:
@@ -85,10 +85,10 @@ def main() -> None:
     settings = get_settings()
     initialize_app_state()
 
-    from utils.rag.app_state import get_chain
+    from services.rag.app_state import get_chain
     chain = get_chain()
     prompt = build_prompt_template()
-    from utils.rag.llm_provider import get_llm_provider
+    from services.rag.llm_provider import get_llm_provider
     llm = get_llm_provider(settings).get_chat_model()
     embedder = get_embedder(settings)
     vector_store = get_vector_store(settings)

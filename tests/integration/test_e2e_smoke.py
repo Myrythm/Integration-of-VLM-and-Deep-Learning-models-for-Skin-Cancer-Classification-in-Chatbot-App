@@ -17,10 +17,10 @@ def test_e2e_chat_in_indonesian(tmp_path: Path) -> None:
     from main import app
 
     with TestClient(app) as client:
-        from utils.rag.app_state import initialize_app_state
+        from services.rag.app_state import initialize_app_state
         initialize_app_state()
 
-        from utils.rag.ingestion import ingest_directory
+        from services.rag.ingestion import ingest_directory
         ingest_directory("aad")
 
         with client.stream(

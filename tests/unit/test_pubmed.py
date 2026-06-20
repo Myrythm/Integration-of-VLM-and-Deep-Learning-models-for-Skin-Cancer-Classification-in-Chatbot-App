@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from utils.rag.pubmed import fetch_pubmed_abstracts, parse_pubmed_xml
+from services.rag.pubmed import fetch_pubmed_abstracts, parse_pubmed_xml
 
 
 SAMPLE_XML = """<?xml version="1.0"?>
@@ -37,8 +37,8 @@ def test_parse_pubmed_xml() -> None:
 
 
 def test_fetch_pubmed_abstracts_uses_api() -> None:
-    with patch("utils.rag.pubmed._esearch") as mock_search, \
-         patch("utils.rag.pubmed._efetch") as mock_fetch:
+    with patch("services.rag.pubmed._esearch") as mock_search, \
+         patch("services.rag.pubmed._efetch") as mock_fetch:
         mock_search.return_value = ["12345678", "87654321"]
         mock_fetch.return_value = SAMPLE_XML
 

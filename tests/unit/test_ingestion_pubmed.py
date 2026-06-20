@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from utils.rag.ingestion import parse_pubmed_json
+from services.rag.ingestion import parse_pubmed_json
 
 
 def test_parse_pubmed_json(tmp_path: Path) -> None:

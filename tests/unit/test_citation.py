@@ -1,4 +1,4 @@
-from utils.rag.citation import extract_citations, format_for_ui
+from services.rag.citation import extract_citations, format_for_ui
 
 
 def test_extracts_single_citation() -> None:

@@ -1,6 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-from utils.rag.prompt import build_prompt_template
+from services.rag.prompt import build_prompt_template
 
 
 def test_returns_chat_prompt_template() -> None:

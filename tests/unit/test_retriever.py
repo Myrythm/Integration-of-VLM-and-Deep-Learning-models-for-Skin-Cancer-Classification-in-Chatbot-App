@@ -3,7 +3,7 @@ from typing import Any
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 
-from utils.rag.retriever import EvidenceFilteredRetriever
+from services.rag.retriever import EvidenceFilteredRetriever
 
 
 class FakeRetriever(BaseRetriever):

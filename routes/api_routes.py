@@ -3,7 +3,7 @@ import uuid
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from schemas.image import ImageUploadResponse
-from utils.image_classifier import classify_skin_image
+from services.image.classifier import classify_skin_image
 
 router = APIRouter(prefix="/api", tags=["image"])
 
