@@ -1,5 +1,43 @@
 {% extends "base.html" %}
 {% block title %}Chat — SkinVision{% endblock %}
 {% block content %}
-<h1>Konteks Klasifikasi</h1>
+
+<div class="space-y-4">
+    <a href="/upload" class="text-sm text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400">
+        ← Kembali ke Upload
+    </a>
+
+    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Konteks Klasifikasi</p>
+        <p class="text-sm font-mono text-slate-700 dark:text-slate-300 mt-1">
+            <span id="ctx-label">{{ label }}</span> · <span id="ctx-confidence">{{ (confidence * 100)|round(2) }}%</span> · EfficientNetB3-v1
+        </p>
+    </div>
+
+    <div id="chat-area" class="space-y-4 min-h-[300px] max-h-[60vh] overflow-y-auto pb-4">
+    </div>
+
+    <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-600 dark:border-amber-500 px-4 py-2 text-sm text-amber-800 dark:text-amber-200">
+        ⚠ Asisten AI untuk edukasi. Bukan nasihat medis. Konsultasi dokter spesialis kulit (Sp.KK).
+    </div>
+
+    <div class="flex gap-2">
+        <textarea id="chat-input" rows="2" placeholder="Ketik pesan..."
+                  class="flex-1 px-3 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-800 dark:text-slate-200 focus:outline-none focus:border-teal-600 dark:focus:border-teal-500 resize-none"></textarea>
+        <button id="send-btn" onclick="sendMessage()"
+                class="px-4 py-2 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white text-sm font-medium rounded-lg transition-colors">
+            →
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    window.CHAT_SESSION = "{{ session }}";
+    window.CHAT_LABEL = "{{ label }}";
+    window.CHAT_CONFIDENCE = {{ confidence }};
+</script>
+<script src="/static/js/chat.js"></script>
 {% endblock %}
