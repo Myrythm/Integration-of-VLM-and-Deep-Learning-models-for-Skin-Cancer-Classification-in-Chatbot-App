@@ -1,7 +1,7 @@
 from langchain_core.language_models.chat_models import BaseChatModel
 
 from config import Settings
-from utils.rag.llm_provider import OpenAIProvider, get_llm_provider
+from services.rag.llm_provider import OpenAIProvider, get_llm_provider
 
 
 def test_openai_provider_returns_chat_model() -> None:

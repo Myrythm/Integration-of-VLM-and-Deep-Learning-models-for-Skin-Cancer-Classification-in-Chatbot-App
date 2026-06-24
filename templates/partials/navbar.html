@@ -1,0 +1,15 @@
+<nav class="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 text-lg font-extrabold tracking-tight text-teal-600 dark:text-teal-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3v1a3 3 0 0 0 0 6v1a3 3 0 0 0 3 3v1a3 3 0 0 0 6 0v-1a3 3 0 0 0 3-3v-1a3 3 0 0 0 0-6v-1a3 3 0 0 0-3-3V5a3 3 0 0 0-3-3z"/></svg>
+            SkinVision
+        </a>
+        <div class="flex items-center gap-2">
+            <a href="/" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors {% if request.url.path == '/' %}text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/20{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">Beranda</a>
+            <a href="/upload" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors {% if request.url.path == '/upload' %}text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/20{% else %}text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">Deteksi</a>
+            <button onclick="toggleTheme()" class="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle theme">
+                <span id="theme-icon"></span>
+            </button>
+        </div>
+    </div>
+</nav>

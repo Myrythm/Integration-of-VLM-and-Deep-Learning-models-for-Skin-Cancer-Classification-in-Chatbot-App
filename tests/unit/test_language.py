@@ -1,4 +1,4 @@
-from utils.rag.language import detect_language
+from services.rag.language import detect_language
 
 
 def test_detect_indonesian() -> None:

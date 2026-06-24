@@ -5,11 +5,11 @@ from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
 from schemas.chat import ChatChunk, ChatRequest
-from utils.rag.app_state import get_chain, get_memory
-from utils.rag.citation import format_for_ui
-from utils.rag.disclaimer import DISCLAIMERS, force_append_disclaimer
-from utils.rag.language import detect_language
-from utils.rag.safety import classify_query_danger
+from services.rag.app_state import get_chain, get_memory
+from services.rag.citation import format_for_ui
+from services.rag.disclaimer import DISCLAIMERS, force_append_disclaimer
+from services.rag.language import detect_language
+from services.rag.safety import classify_query_danger
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
 
@@ -87,7 +87,7 @@ async def chat(request: ChatRequest) -> StreamingResponse:
                                 citations=citations,
                                 language=language,
                             ).model_dump())
-                elif kind == "on_llm_stream":
+                elif kind == "on_chat_model_stream":
                     chunk = event["data"].get("chunk")
                     token = getattr(chunk, "content", "") or ""
                     if token:
@@ -99,7 +99,7 @@ async def chat(request: ChatRequest) -> StreamingResponse:
             full_response = force_append_disclaimer(full_response, language)
             await memory.add_turn(request.session_id, request.message, full_response)
 
-            from utils.rag.logging_config import log_query
+            from services.rag.logging_config import log_query
             # TODO: tokens_in/tokens_out require non-streaming token counts; not yet wired.
             log_query(
                 session_id=request.session_id,

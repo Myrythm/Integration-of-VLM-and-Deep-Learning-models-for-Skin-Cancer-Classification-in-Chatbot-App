@@ -6,13 +6,13 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.runnables import Runnable
 
 from config import Settings, get_settings
-from utils.rag.chain import build_rag_chain
-from utils.rag.embedder import get_embedder
-from utils.rag.llm_provider import get_llm_provider
-from utils.rag.memory import SessionMemory
-from utils.rag.prompt import build_prompt_template
-from utils.rag.retriever import EvidenceFilteredRetriever
-from utils.rag.vector_store import get_vector_store
+from services.rag.chain import build_rag_chain
+from services.rag.embedder import get_embedder
+from services.rag.llm_provider import get_llm_provider
+from services.rag.memory import SessionMemory
+from services.rag.prompt import build_prompt_template
+from services.rag.retriever import EvidenceFilteredRetriever
+from services.rag.vector_store import get_vector_store
 
 
 _settings: Settings | None = None

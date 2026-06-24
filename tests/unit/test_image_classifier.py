@@ -6,7 +6,7 @@ import pytest
 from PIL import Image
 
 from config import Settings
-from utils.image_classifier import (
+from services.image.classifier import (
     SKIN_CANCER_LABELS,
     classify_skin_image,
     preprocess_image,
@@ -43,9 +43,9 @@ def test_preprocess_image_converts_rgba_to_rgb() -> None:
 def test_classify_skin_image_uses_model_prediction() -> None:
     settings = Settings(openai_api_key="test", model_path="./model/skinCancer.h5")
     fake_model = MagicMock()
-    fake_model.predict.return_value = np.array([[0.05, 0.10, 0.80, 0.05]])
+    fake_model.predict.return_value = np.array([[0.80, 0.10, 0.05, 0.05]])
 
-    with patch("utils.image_classifier._get_model", return_value=fake_model):
+    with patch("services.image.classifier._get_model", return_value=fake_model):
         result = classify_skin_image(_make_test_image_bytes(), settings=settings)
 
     assert result.label == "Melanoma"
@@ -61,7 +61,7 @@ def test_classify_skin_image_picks_max_class() -> None:
     fake_model = MagicMock()
     fake_model.predict.return_value = np.array([[0.0, 0.0, 0.0, 1.0]])
 
-    with patch("utils.image_classifier._get_model", return_value=fake_model):
+    with patch("services.image.classifier._get_model", return_value=fake_model):
         result = classify_skin_image(_make_test_image_bytes(), settings=settings)
 
     assert result.label == "Nevus"
@@ -73,7 +73,7 @@ def test_classify_skin_image_handles_low_confidence() -> None:
     fake_model = MagicMock()
     fake_model.predict.return_value = np.array([[0.25, 0.25, 0.25, 0.25]])
 
-    with patch("utils.image_classifier._get_model", return_value=fake_model):
+    with patch("services.image.classifier._get_model", return_value=fake_model):
         result = classify_skin_image(_make_test_image_bytes(), settings=settings)
 
     assert result.confidence == pytest.approx(0.25, abs=1e-6)

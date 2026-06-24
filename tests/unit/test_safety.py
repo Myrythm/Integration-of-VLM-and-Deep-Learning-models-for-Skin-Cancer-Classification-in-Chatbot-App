@@ -1,4 +1,4 @@
-from utils.rag.safety import classify_query_danger
+from services.rag.safety import classify_query_danger
 
 
 def test_dosage_question_blocked() -> None:

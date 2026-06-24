@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     chroma_path: str = "./data/chroma_db"
     chroma_collection: str = "skin_rag_v1"
 
-    rag_similarity_threshold: float = 0.7
+    rag_similarity_threshold: float = 0.3
     rag_top_k: int = 5
     rag_retrieve_k: int = 10
 

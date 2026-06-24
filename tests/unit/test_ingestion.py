@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from config import Settings
-from utils.rag.ingestion import parse_markdown_file, ingest_directory
+from services.rag.ingestion import parse_markdown_file, ingest_directory
 
 
 def test_parse_markdown_file_extracts_frontmatter(tmp_path: Path) -> None:

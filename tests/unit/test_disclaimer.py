@@ -1,4 +1,4 @@
-from utils.rag.disclaimer import DISCLAIMERS, force_append_disclaimer
+from services.rag.disclaimer import DISCLAIMERS, force_append_disclaimer
 
 
 def test_disclaimers_dict_has_both_languages() -> None:
