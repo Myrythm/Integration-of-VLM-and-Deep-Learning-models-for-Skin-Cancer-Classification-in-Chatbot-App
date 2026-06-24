@@ -4,7 +4,7 @@ A FastAPI web app for AI-assisted skin-cancer education. Combines EfficientNetB3
 
 ## Features
 
-- 🩺 **AI lesion classification** via EfficientNetB3
+- 🩺 **AI lesion classification** via EfficientNetB3 (4 classes: BCC, SCC, Melanoma, Nevus)
 - 💬 **Bilingual chatbot** (Indonesian + English) grounded in patient-education guidelines and curated PubMed abstracts
 - 📚 **Source citation** on every response — click to verify
 - ⚠️ **Mandatory medical disclaimer** at three layers (system, post-generation, UI)
@@ -16,16 +16,33 @@ A FastAPI web app for AI-assisted skin-cancer education. Combines EfficientNetB3
 ```bash
 git clone <repo>
 cd <repo>
-python3 -m venv .venv
+uv venv
 source .venv/bin/activate
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 cp .env.example .env
 # Edit .env: set OPENAI_API_KEY
+
+# Place the trained model file at ./model/skinCancer.h5
+# (see model/README.md for details)
+
 ./scripts/init_kb.sh
 python -m uvicorn main:app --reload
 ```
 
 Open http://localhost:8000
+
+## Image Classification Model
+
+The `POST /api/upload` endpoint uses an EfficientNetB3 model trained on skin lesion images. The model:
+
+- Takes 224×224 RGB image input
+- Outputs 4-class probabilities: `Karsinoma Sel Basal`, `Karsinoma Sel Skuamosa`, `Melanoma`, `Nevus`
+- Returns the predicted class label and confidence score
+- Is loaded lazily on first request and cached
+
+**Setup**: Place `skinCancer.h5` (~134 MB) in `./model/` (or set `MODEL_PATH` in `.env` to override). See [model/README.md](model/README.md) for full details.
+
+**Required**: `tensorflow==2.15.0` (already pinned in `requirements.txt`).
 
 ## Architecture
 

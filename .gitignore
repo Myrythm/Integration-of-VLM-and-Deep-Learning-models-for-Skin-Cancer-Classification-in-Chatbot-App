@@ -4,7 +4,12 @@ __pycache__/
 .env
 data/chroma_db/
 logs/
+model/*.h5
+model/*.keras
+model/*.pb
 *.egg-info/
 .pytest_cache/
 .coverage
 htmlcov/
+pyproject.toml
+uv.lock

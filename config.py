@@ -21,6 +21,9 @@ class Settings(BaseSettings):
 
     session_secret_key: str = "dev-secret-change-me"
 
+    model_path: str = "./model/skinCancer.h5"
+    image_input_size: int = 224
+
     host: str = "0.0.0.0"
     port: int = 8000
 

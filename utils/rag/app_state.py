@@ -1,3 +1,8 @@
+from typing import Any
+
+from langchain_core.callbacks import CallbackManagerForRetrieverRun
+from langchain_core.documents import Document
+from langchain_core.retrievers import BaseRetriever
 from langchain_core.runnables import Runnable
 
 from config import Settings, get_settings
@@ -31,7 +36,7 @@ def initialize_app_state() -> None:
     _memory = SessionMemory(max_turns=6)
 
 
-def get_settings() -> Settings:
+def get_app_settings() -> Settings:
     if _settings is None:
         raise RuntimeError("App state not initialized. Call initialize_app_state() in lifespan.")
     return _settings
@@ -49,16 +54,26 @@ def get_memory() -> SessionMemory:
     return _memory
 
 
-class _ChromaLangChainRetriever:
+class _ChromaLangChainRetriever(BaseRetriever):
     """Adapter: bridges Embedder + VectorStoreProvider to LangChain retriever interface."""
 
-    def __init__(self, embedder, vector_store, settings) -> None:
+    _embedder: Any = None
+    _vector_store: Any = None
+    _k: int = 10
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def __init__(self, embedder: Any, vector_store: Any, settings: Any, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
         self._embedder = embedder
         self._vector_store = vector_store
         self._k = settings.rag_retrieve_k
 
-    def invoke(self, query: str, config=None) -> list:
-        from langchain_core.documents import Document
+    def _get_relevant_documents(
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
+    ) -> list[Document]:
+        _ = run_manager
         embedding = self._embedder.embed_query(query)
         results = self._vector_store.similarity_search(embedding, self._k)
         return [
