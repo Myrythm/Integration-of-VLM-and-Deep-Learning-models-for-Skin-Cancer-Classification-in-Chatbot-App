@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Chatbot — SkinVision{% endblock %}
+{% block main_class %}h-[calc(100vh-4rem)] overflow-hidden{% endblock %}
+
+{% block content %}
+<div class="flex flex-col h-full">
+
+    <!-- Chat area -->
+    <div id="chat-area" class="flex-1 overflow-y-auto chat-scroll max-w-3xl mx-auto w-full px-4 py-4 space-y-5">
+    </div>
+
+    <!-- Prompt suggestions -->
+    <div class="max-w-3xl mx-auto w-full px-4 pb-2">
+        <div id="prompt-bubbles" class="flex gap-2 overflow-x-auto chat-scroll pb-1">
+        </div>
+    </div>
+
+    <!-- Input area -->
+    <div class="chat-input-area max-w-3xl mx-auto w-full px-4 pb-4">
+        <div class="disclaimer-banner rounded-xl px-3 py-2 mb-2.5 flex items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill text-amber-500 dark:text-amber-400 text-xs animate-pulse"></i>
+            <p class="text-[11px] text-amber-800 dark:text-amber-300 font-medium">Asisten AI untuk edukasi. Bukan nasihat medis. Konsultasi dokter Sp.KK.</p>
+        </div>
+        <div class="flex gap-2.5 items-end">
+            <div class="flex-1 relative">
+                <textarea id="chat-input" rows="1" placeholder="Ketik pertanyaan Anda di sini..."
+                          class="chat-textarea w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-400 dark:focus:border-teal-600 resize-none transition-[border-color,box-shadow] duration-200"></textarea>
+            </div>
+            <button id="send-btn" class="send-button w-11 h-11 flex-shrink-0 bg-gradient-to-br from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 dark:from-teal-500 dark:to-teal-600 dark:hover:from-teal-400 dark:hover:to-teal-500 text-white rounded-full flex items-center justify-center transition-all shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none hover:scale-105 active:scale-95">
+                <i class="bi bi-send-fill text-sm"></i>
+            </button>
+        </div>
+        <p class="text-center text-[10px] text-slate-400 dark:text-slate-600 mt-2 tracking-wide">Bot mungkin melakukan kesalahan</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
+<script src="/static/js/chat.js"></script>
+{% endblock %}

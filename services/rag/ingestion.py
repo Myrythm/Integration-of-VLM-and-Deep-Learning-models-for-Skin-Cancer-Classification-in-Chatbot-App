@@ -7,8 +7,8 @@ import frontmatter
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from config import get_settings
-from utils.rag.embedder import get_embedder
-from utils.rag.vector_store import get_vector_store
+from services.rag.embedder import get_embedder
+from services.rag.vector_store import get_vector_store
 
 KB_ROOT = Path("data/knowledge_base")
 SPLITTER = RecursiveCharacterTextSplitter(
@@ -90,7 +90,7 @@ def ingest_directory(source: str) -> int:
         print(f"No .md or .json files found in {src_dir}")
         return 0
 
-    from utils.rag.cache import EmbeddingCache
+    from services.rag.cache import EmbeddingCache
     cache = EmbeddingCache()
     embedder = get_embedder(settings)
     vector_store = get_vector_store(settings)
@@ -126,7 +126,11 @@ def main() -> None:
     if args.rebuild:
         settings = get_settings()
         import chromadb
-        client = chromadb.PersistentClient(path=settings.chroma_path)
+        from chromadb.config import Settings as ChromaSettings
+        client = chromadb.PersistentClient(
+            path=settings.chroma_path,
+            settings=ChromaSettings(anonymized_telemetry=False),
+        )
         try:
             client.delete_collection(settings.chroma_collection)
             print(f"Wiped collection: {settings.chroma_collection}")

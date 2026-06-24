@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from config import Settings
-from utils.rag.vector_store import ChromaProvider
+from services.rag.vector_store import ChromaProvider
 
 
 @pytest.fixture

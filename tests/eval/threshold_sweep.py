@@ -5,9 +5,9 @@ import json
 from pathlib import Path
 
 from config import get_settings
-from utils.rag.app_state import initialize_app_state
-from utils.rag.embedder import get_embedder
-from utils.rag.vector_store import get_vector_store
+from services.rag.app_state import initialize_app_state
+from services.rag.embedder import get_embedder
+from services.rag.vector_store import get_vector_store
 
 
 def main() -> None:

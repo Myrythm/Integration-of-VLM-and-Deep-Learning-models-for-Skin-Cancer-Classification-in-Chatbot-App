@@ -5,7 +5,7 @@ import argparse
 import json
 from pathlib import Path
 
-from utils.rag.pubmed import fetch_pubmed_abstracts
+from services.rag.pubmed import fetch_pubmed_abstracts
 
 OUT_DIR = Path(__file__).parent
 

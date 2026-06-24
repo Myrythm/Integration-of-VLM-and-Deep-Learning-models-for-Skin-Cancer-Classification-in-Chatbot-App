@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from utils.rag.cache import EmbeddingCache
+from services.rag.cache import EmbeddingCache
 
 
 def test_cache_roundtrip(tmp_path: Path) -> None:

@@ -1,7 +1,7 @@
 import pytest
 
 from config import Settings
-from utils.rag.vector_store import ChromaProvider, PineconeProvider, get_vector_store
+from services.rag.vector_store import ChromaProvider, PineconeProvider, get_vector_store
 
 
 def test_chroma_backend_returns_chroma_provider(tmp_path) -> None:

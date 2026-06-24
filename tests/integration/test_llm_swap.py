@@ -1,7 +1,7 @@
 import pytest
 
 from config import Settings
-from utils.rag.llm_provider import get_llm_provider
+from services.rag.llm_provider import get_llm_provider
 
 
 def test_ollama_backend_routes_to_ollama_provider() -> None:

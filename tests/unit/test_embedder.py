@@ -3,7 +3,7 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 from config import Settings
-from utils.rag.embedder import OpenAIEmbedder
+from services.rag.embedder import OpenAIEmbedder
 
 
 @pytest.fixture

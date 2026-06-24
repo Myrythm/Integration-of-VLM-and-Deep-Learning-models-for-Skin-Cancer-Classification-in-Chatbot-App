@@ -74,9 +74,9 @@ def _make_patches(mock_chain: MagicMock):
     mock_settings.rag_top_k = 5
     mock_settings.rag_retrieve_k = 10
     return (
-        patch("utils.rag.app_state._chain", mock_chain),
-        patch("utils.rag.app_state._memory", mock_memory),
-        patch("utils.rag.app_state._settings", mock_settings),
+        patch("services.rag.app_state._chain", mock_chain),
+        patch("services.rag.app_state._memory", mock_memory),
+        patch("services.rag.app_state._settings", mock_settings),
     )
 
 

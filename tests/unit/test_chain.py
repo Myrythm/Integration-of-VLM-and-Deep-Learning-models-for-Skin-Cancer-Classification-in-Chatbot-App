@@ -4,9 +4,9 @@ from unittest.mock import MagicMock
 from langchain_core.documents import Document
 from langchain_core.language_models.chat_models import BaseChatModel
 
-from utils.rag.chain import build_rag_chain, format_docs
-from utils.rag.memory import SessionMemory
-from utils.rag.prompt import build_prompt_template
+from services.rag.chain import build_rag_chain, format_docs
+from services.rag.memory import SessionMemory
+from services.rag.prompt import build_prompt_template
 
 
 def test_format_docs_numbers_chunks() -> None:
