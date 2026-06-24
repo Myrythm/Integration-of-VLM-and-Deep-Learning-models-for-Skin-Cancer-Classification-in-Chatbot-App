@@ -13,5 +13,5 @@ if [ ! -f ".env" ]; then
     exit 1
 fi
 
-python -m utils.rag.ingestion --source all --rebuild
+python -m services.rag.ingestion --source all --rebuild
 echo "Knowledge base initialized."

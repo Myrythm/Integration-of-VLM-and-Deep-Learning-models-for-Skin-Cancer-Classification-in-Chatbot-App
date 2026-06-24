@@ -1,41 +1,36 @@
 {% extends "base.html" %}
 {% block title %}Chatbot — SkinVision{% endblock %}
-{% block main_class %}{% endblock %}
+{% block main_class %}h-[calc(100vh-4rem)] overflow-hidden{% endblock %}
 
 {% block content %}
-<div class="flex flex-col h-screen pt-16">
+<div class="flex flex-col h-full">
 
-    <div class="max-w-3xl mx-auto w-full px-4 py-3 flex items-center justify-between">
-        <a href="/upload" class="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
-            <i class="bi bi-arrow-left"></i> Kembali
-        </a>
-        <div id="context-badge" class="hidden items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full text-xs font-medium">
-            <i class="bi bi-image text-teal-500"></i>
-            <span id="ctx-text"></span>
+    <!-- Chat area -->
+    <div id="chat-area" class="flex-1 overflow-y-auto chat-scroll max-w-3xl mx-auto w-full px-4 py-4 space-y-5">
+    </div>
+
+    <!-- Prompt suggestions -->
+    <div class="max-w-3xl mx-auto w-full px-4 pb-2">
+        <div id="prompt-bubbles" class="flex gap-2 overflow-x-auto chat-scroll pb-1">
         </div>
     </div>
 
-    <div id="chat-area" class="flex-1 overflow-y-auto chat-scroll max-w-3xl mx-auto w-full px-4 py-4 space-y-4">
-    </div>
-
-    <div id="prompt-bubbles" class="max-w-3xl mx-auto w-full px-4 pb-2 flex gap-2 overflow-x-auto chat-scroll">
-    </div>
-
-    <div class="max-w-3xl mx-auto w-full px-4 pb-4">
-        <div class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2 mb-2 flex items-center gap-2">
-            <i class="bi bi-exclamation-triangle text-amber-600 dark:text-amber-400 text-xs"></i>
-            <p class="text-xs text-amber-700 dark:text-amber-300">Asisten AI untuk edukasi. Bukan nasihat medis. Konsultasi dokter Sp.KK.</p>
+    <!-- Input area -->
+    <div class="chat-input-area max-w-3xl mx-auto w-full px-4 pb-4">
+        <div class="disclaimer-banner rounded-xl px-3 py-2 mb-2.5 flex items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill text-amber-500 dark:text-amber-400 text-xs animate-pulse"></i>
+            <p class="text-[11px] text-amber-800 dark:text-amber-300 font-medium">Asisten AI untuk edukasi. Bukan nasihat medis. Konsultasi dokter Sp.KK.</p>
         </div>
-        <div class="flex gap-2 items-end">
+        <div class="flex gap-2.5 items-end">
             <div class="flex-1 relative">
                 <textarea id="chat-input" rows="1" placeholder="Ketik pertanyaan Anda di sini..."
-                          class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"></textarea>
+                          class="chat-textarea w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-400 dark:focus:border-teal-600 resize-none transition-[border-color,box-shadow] duration-200"></textarea>
             </div>
-            <button id="send-btn" class="w-11 h-11 flex-shrink-0 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-full flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                <i class="bi bi-send"></i>
+            <button id="send-btn" class="send-button w-11 h-11 flex-shrink-0 bg-gradient-to-br from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 dark:from-teal-500 dark:to-teal-600 dark:hover:from-teal-400 dark:hover:to-teal-500 text-white rounded-full flex items-center justify-center transition-all shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none hover:scale-105 active:scale-95">
+                <i class="bi bi-send-fill text-sm"></i>
             </button>
         </div>
-        <p class="text-center text-xs text-slate-400 dark:text-slate-600 mt-2">Bot mungkin melakukan kesalahan</p>
+        <p class="text-center text-[10px] text-slate-400 dark:text-slate-600 mt-2 tracking-wide">Bot mungkin melakukan kesalahan</p>
     </div>
 </div>
 {% endblock %}

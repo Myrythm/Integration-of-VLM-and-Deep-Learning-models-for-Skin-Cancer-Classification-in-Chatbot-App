@@ -87,7 +87,7 @@ async def chat(request: ChatRequest) -> StreamingResponse:
                                 citations=citations,
                                 language=language,
                             ).model_dump())
-                elif kind == "on_llm_stream":
+                elif kind == "on_chat_model_stream":
                     chunk = event["data"].get("chunk")
                     token = getattr(chunk, "content", "") or ""
                     if token:

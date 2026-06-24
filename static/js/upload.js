@@ -37,14 +37,14 @@
 
     dropZone.addEventListener("dragover", function (e) {
         e.preventDefault();
-        dropZone.classList.add("bg-teal-50", "dark:bg-teal-900/10");
+        dropZone.classList.add("drag-active");
     });
     dropZone.addEventListener("dragleave", function () {
-        dropZone.classList.remove("bg-teal-50", "dark:bg-teal-900/10");
+        dropZone.classList.remove("drag-active");
     });
     dropZone.addEventListener("drop", function (e) {
         e.preventDefault();
-        dropZone.classList.remove("bg-teal-50", "dark:bg-teal-900/10");
+        dropZone.classList.remove("drag-active");
         handleFile(e.dataTransfer.files[0]);
     });
 
@@ -86,8 +86,12 @@
             resultCard.scrollIntoView({ behavior: "smooth" });
 
             setTimeout(function () {
-                window.location.href = "/chat";
-            }, 1500);
+                document.body.style.opacity = "0";
+                document.body.style.transition = "opacity 0.4s ease";
+                setTimeout(function () {
+                    window.location.href = "/chat";
+                }, 400);
+            }, 2000);
         } catch (err) {
             alert("Error: " + err.message);
         } finally {

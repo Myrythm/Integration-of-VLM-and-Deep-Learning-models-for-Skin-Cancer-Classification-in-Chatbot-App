@@ -126,7 +126,11 @@ def main() -> None:
     if args.rebuild:
         settings = get_settings()
         import chromadb
-        client = chromadb.PersistentClient(path=settings.chroma_path)
+        from chromadb.config import Settings as ChromaSettings
+        client = chromadb.PersistentClient(
+            path=settings.chroma_path,
+            settings=ChromaSettings(anonymized_telemetry=False),
+        )
         try:
             client.delete_collection(settings.chroma_collection)
             print(f"Wiped collection: {settings.chroma_collection}")

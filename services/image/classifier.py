@@ -9,9 +9,9 @@ from config import Settings, get_settings
 from schemas.detection import DetectionResult
 
 SKIN_CANCER_LABELS: list[str] = [
+    "Melanoma",
     "Karsinoma Sel Basal",
     "Karsinoma Sel Skuamosa",
-    "Melanoma",
     "Nevus",
 ]
 
