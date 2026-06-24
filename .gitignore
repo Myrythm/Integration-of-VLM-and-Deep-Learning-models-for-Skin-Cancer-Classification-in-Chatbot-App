@@ -11,3 +11,6 @@ model/*.pb
 .pytest_cache/
 .coverage
 htmlcov/
+pyproject.toml
+uv.lock
+
