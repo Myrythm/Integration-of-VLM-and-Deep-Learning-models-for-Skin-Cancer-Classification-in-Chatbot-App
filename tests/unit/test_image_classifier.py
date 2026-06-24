@@ -43,7 +43,7 @@ def test_preprocess_image_converts_rgba_to_rgb() -> None:
 def test_classify_skin_image_uses_model_prediction() -> None:
     settings = Settings(openai_api_key="test", model_path="./model/skinCancer.h5")
     fake_model = MagicMock()
-    fake_model.predict.return_value = np.array([[0.05, 0.10, 0.80, 0.05]])
+    fake_model.predict.return_value = np.array([[0.80, 0.10, 0.05, 0.05]])
 
     with patch("services.image.classifier._get_model", return_value=fake_model):
         result = classify_skin_image(_make_test_image_bytes(), settings=settings)
