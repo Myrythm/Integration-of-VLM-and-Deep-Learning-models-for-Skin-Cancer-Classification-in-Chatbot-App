@@ -1,8 +1,3 @@
-from typing import Any
-
-from langchain_core.callbacks import CallbackManagerForRetrieverRun
-from langchain_core.documents import Document
-from langchain_core.retrievers import BaseRetriever
 from langchain_core.runnables import Runnable
 
 from config import Settings, get_settings
@@ -11,7 +6,7 @@ from services.rag.embedder import get_embedder
 from services.rag.llm_provider import get_llm_provider
 from services.rag.memory import SessionMemory
 from services.rag.prompt import build_prompt_template
-from services.rag.retriever import EvidenceFilteredRetriever
+from services.rag.retriever import ChromaLangChainRetriever, EvidenceFilteredRetriever
 from services.rag.vector_store import get_vector_store
 
 
@@ -23,23 +18,31 @@ _memory: SessionMemory | None = None
 def initialize_app_state() -> None:
     global _settings, _chain, _memory
     _settings = get_settings()
+    if _settings.llm_backend == "openai" and not _settings.openai_api_key:
+        raise ValueError(
+            "OPENAI_API_KEY is required when llm_backend is 'openai'. "
+            "Set it in .env before starting the server."
+        )
     embedder = get_embedder(_settings)
     vector_store = get_vector_store(_settings)
-    llm = get_llm_provider(_settings).get_streaming_chat_model()
+    llm = get_llm_provider(_settings).get_chat_model()
 
-    base_retriever = _ChromaLangChainRetriever(embedder, vector_store, _settings)
+    base_retriever = ChromaLangChainRetriever(embedder, vector_store, _settings)
     retriever = EvidenceFilteredRetriever(
         base_retriever=base_retriever,
         threshold=_settings.rag_similarity_threshold,
     )
-    _chain = build_rag_chain(retriever, llm, build_prompt_template())
-    _memory = SessionMemory(max_turns=6)
-
-
-def get_app_settings() -> Settings:
-    if _settings is None:
-        raise RuntimeError("App state not initialized. Call initialize_app_state() in lifespan.")
-    return _settings
+    _chain = build_rag_chain(
+        retriever,
+        llm,
+        build_prompt_template(),
+        context_chunk_chars=_settings.rag_context_chunk_chars,
+    )
+    _memory = SessionMemory(
+        max_turns=_settings.memory_max_turns,
+        max_sessions=_settings.session_memory_max_sessions,
+        ttl_seconds=_settings.session_memory_ttl_seconds,
+    )
 
 
 def get_chain() -> Runnable:
@@ -52,34 +55,3 @@ def get_memory() -> SessionMemory:
     if _memory is None:
         raise RuntimeError("App state not initialized. Call initialize_app_state() in lifespan.")
     return _memory
-
-
-class _ChromaLangChainRetriever(BaseRetriever):
-    """Adapter: bridges Embedder + VectorStoreProvider to LangChain retriever interface."""
-
-    _embedder: Any = None
-    _vector_store: Any = None
-    _k: int = 10
-
-    class Config:
-        arbitrary_types_allowed = True
-
-    def __init__(self, embedder: Any, vector_store: Any, settings: Any, **kwargs: Any) -> None:
-        super().__init__(**kwargs)
-        self._embedder = embedder
-        self._vector_store = vector_store
-        self._k = settings.rag_retrieve_k
-
-    def _get_relevant_documents(
-        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
-    ) -> list[Document]:
-        _ = run_manager
-        embedding = self._embedder.embed_query(query)
-        results = self._vector_store.similarity_search(embedding, self._k)
-        return [
-            Document(
-                page_content=r["text"],
-                metadata={**r["metadata"], "score": r["score"], "id": r["id"]},
-            )
-            for r in results
-        ]
