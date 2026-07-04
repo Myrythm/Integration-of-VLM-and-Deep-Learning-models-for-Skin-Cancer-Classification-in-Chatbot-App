@@ -1,12 +1,13 @@
 from typing import Protocol
 
-from openai import OpenAI
+from openai import AsyncOpenAI, OpenAI
 
 from config import Settings
 
 
 class Embedder(Protocol):
     def embed_query(self, text: str) -> list[float]: ...
+    async def aembed_query(self, text: str) -> list[float]: ...
     def embed_documents(self, texts: list[str]) -> list[list[float]]: ...
 
 
@@ -14,10 +15,15 @@ class OpenAIEmbedder:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
         self._client = OpenAI(api_key=settings.openai_api_key)
+        self._aclient = AsyncOpenAI(api_key=settings.openai_api_key)
         self._model = settings.openai_embedding_model
 
     def embed_query(self, text: str) -> list[float]:
         response = self._client.embeddings.create(model=self._model, input=text)
+        return response.data[0].embedding
+
+    async def aembed_query(self, text: str) -> list[float]:
+        response = await self._aclient.embeddings.create(model=self._model, input=text)
         return response.data[0].embedding
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:

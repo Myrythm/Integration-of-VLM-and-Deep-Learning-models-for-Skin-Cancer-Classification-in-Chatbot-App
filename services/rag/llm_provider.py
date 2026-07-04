@@ -8,7 +8,6 @@ from config import Settings
 
 class LLMProvider(Protocol):
     def get_chat_model(self) -> BaseChatModel: ...
-    def get_streaming_chat_model(self) -> BaseChatModel: ...
 
 
 class OpenAIProvider:
@@ -16,18 +15,13 @@ class OpenAIProvider:
         self._settings = settings
 
     def get_chat_model(self) -> BaseChatModel:
+        # stream_usage=True attaches usage_metadata to the final streamed chunk
+        # so the route can record token counts (see F10).
         return ChatOpenAI(
             api_key=self._settings.openai_api_key,
             model=self._settings.openai_model,
-            temperature=0.3,
-        )
-
-    def get_streaming_chat_model(self) -> BaseChatModel:
-        return ChatOpenAI(
-            api_key=self._settings.openai_api_key,
-            model=self._settings.openai_model,
-            temperature=0.3,
-            streaming=True,
+            temperature=self._settings.llm_temperature,
+            stream_usage=True,
         )
 
 

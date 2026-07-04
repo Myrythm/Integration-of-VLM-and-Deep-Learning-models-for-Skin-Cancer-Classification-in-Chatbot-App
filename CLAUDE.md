@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-FastAPI backend for an AI skin-cancer education chatbot. Two capabilities: (1) lesion
+FastAPI app for an AI skin-cancer education chatbot. Two capabilities: (1) lesion
 image classification, and (2) a RAG-grounded bilingual (Indonesian/English) chatbot that
 answers from a curated knowledge base with inline citations and a mandatory medical
-disclaimer on every turn. The service is API-only (JSON + SSE); there is no server-rendered
-UI — the Flask-era `templates/`/`static/` were removed, so ignore references to them in
-`README.md` and `docs/architecture.md`.
+disclaimer on every turn. It exposes a JSON + SSE API (`/api/upload`, `/api/chat`) **and**
+server-rendered Jinja2 pages via `routes/ui_routes.py` (`/`, `/upload`, `/chat`), mounting
+`templates/` and `static/`.
 
 ## Commands
 
@@ -28,8 +28,8 @@ python -m pytest tests/unit/test_safety.py::test_name
 python -m pytest -k disclaimer
 
 # Ingest knowledge base into Chroma (run before chat works end-to-end)
-python -m utils.rag.ingestion --source all --rebuild   # NOTE: "all" = aad+medlineplus+dermnet only
-python -m utils.rag.ingestion --source pubmed          # pubmed must be ingested separately
+python -m services.rag.ingestion --source all --rebuild   # NOTE: "all" = aad+medlineplus+dermnet only
+python -m services.rag.ingestion --source pubmed          # pubmed must be ingested separately
 
 # Offline RAG quality eval (writes tests/eval/eval_results.json)
 python -m tests.eval.run_eval
@@ -53,26 +53,32 @@ All runtime config flows through `config.py` (`pydantic-settings`, reads `.env`)
 ## Architecture
 
 Request flow:
-- `POST /api/upload` → `routes/api_routes.py` → `utils/image_classifier.classify_skin_image`
-  returns a `DetectionResult` + a new `chat_session_id`.
+- `POST /api/upload` → `routes/api_routes.py` → `services/image/classifier.classify_skin_image`
+  (run via `asyncio.to_thread`) returns a `DetectionResult` + a new `chat_session_id`.
 - `POST /api/chat` → `routes/chat_routes.py` streams Server-Sent Events. It runs the safety
   classifier first, then the RAG chain via LangChain `astream_events(version="v2")`, manually
   translating chain events into typed `ChatChunk` SSE frames (`token`, `citation`, `blocked`,
-  `done`, `error`).
+  `done`, `error`). The whole stream is wrapped in `asyncio.timeout`; the retrieve step is
+  matched by its `run_name="retrieve"`; citations are emitted after the answer, filtered to the
+  `[n]` markers the answer actually cited.
 
 Layering rule (enforced by convention, see `docs/architecture.md`):
-- `utils/rag/` is framework-agnostic and must **not** import FastAPI, Starlette, or `routes/`.
-- `routes/` may import `schemas/`, `utils/`, FastAPI.
+- `services/rag/` is framework-agnostic and must **not** import FastAPI, Starlette, or `routes/`.
+- `routes/` may import `schemas/`, `services/`, FastAPI.
 - `schemas/` is Pydantic only.
 
 Dependency wiring / singletons:
-- `utils/rag/app_state.py` builds the embedder → vector store → retriever → LLM → LCEL chain
-  and `SessionMemory` once, inside the FastAPI `lifespan` (`main.py`). Access them only via
-  `get_chain()` / `get_memory()` / `get_settings()` — these raise `RuntimeError` if
-  `initialize_app_state()` hasn't run. Tests bypass this by patching the module globals
-  `utils.rag.app_state._chain`, `._memory`, `._settings` (see `tests/integration/test_chat_route.py`).
-- The RAG chain (`utils/rag/chain.py`) is a pure LCEL pipeline `retrieve | prompt | llm`;
-  `EvidenceFilteredRetriever` drops chunks below the similarity threshold.
+- `services/rag/app_state.py` builds the embedder → vector store → retriever → LLM → LCEL chain
+  and `SessionMemory` once, inside the FastAPI `lifespan` (`main.py`), which also warms the Keras
+  model. Access the chain/memory only via `get_chain()` / `get_memory()` — these raise
+  `RuntimeError` if `initialize_app_state()` hasn't run. Settings come from
+  `config.get_settings()` (cached via `lru_cache`). Tests bypass wiring by patching the module
+  globals `services.rag.app_state._chain`, `._memory`, `._settings` (see
+  `tests/integration/test_chat_route.py`); `memory.get_history` is **async**, so mock it with
+  `AsyncMock`. `initialize_app_state()` raises `ValueError` if the OpenAI key is empty.
+- The RAG chain (`services/rag/chain.py`) is a pure LCEL pipeline `retrieve | prompt | llm` with
+  an **async** `retrieve`; `EvidenceFilteredRetriever` drops chunks below the similarity
+  threshold (failing closed when a chunk has no score).
 
 Swappable backends — both use a `Protocol` + factory picking the impl from an env var:
 - `llm_provider.py`: `openai` works; `ollama` and `vllm` are deliberate `NotImplementedError` stubs.
@@ -89,10 +95,13 @@ Safety & compliance (don't weaken without reason — this is a medical tool):
 
 ## Notable stubs / not-yet-wired
 
-- `utils/image_classifier.py` returns a **hardcoded mock** `DetectionResult`. The real model
-  file `model/skinCancer.h5` exists but is not loaded anywhere yet — wiring it is open work.
-- Token accounting in chat logging is stubbed (`tokens_in=0/tokens_out=0`); streaming path
-  doesn't yet capture usage.
+- `services/image/classifier.py` loads the real Keras model from `settings.model_path`
+  (`model/skinCancer.h5`), lazily via an `lru_cache` and warmed at startup. It validates the
+  output width against `SKIN_CANCER_LABELS` and softmaxes logit-shaped outputs.
+- Token accounting **is** wired: `ChatOpenAI(stream_usage=True)` attaches `usage_metadata` to the
+  final streamed chunk, which `chat_routes.py` captures and passes to `log_query`.
+- `llm_provider.py` exposes a single `get_chat_model()` (no separate streaming variant);
+  `ollama`/`vllm` remain `NotImplementedError` stubs, as does `vector_store.PineconeProvider`.
 
 ## Tests
 

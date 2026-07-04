@@ -15,6 +15,14 @@ def test_includes_all_required_placeholders() -> None:
         assert var in placeholders, f"Missing placeholder: {var}"
 
 
+def test_human_template_does_not_interpolate_chat_history() -> None:
+    prompt = build_prompt_template()
+    human_msg = prompt.messages[-1].prompt.template
+    assert "{chat_history}" not in human_msg
+    # history still flows in via the MessagesPlaceholder, not string interpolation
+    assert "chat_history" in prompt.input_variables
+
+
 def test_system_message_includes_critical_rules() -> None:
     prompt = build_prompt_template()
     messages = prompt.messages

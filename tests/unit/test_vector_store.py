@@ -41,3 +41,21 @@ def test_upsert_and_similarity_search_roundtrip(settings: Settings) -> None:
     assert all("text" in r and "metadata" in r and "score" in r for r in results)
     assert results[0]["id"] == "1"
     assert results[0]["metadata"]["source"] == "aad"
+
+
+def test_delete_collection_wipes_data_and_allows_reuse(settings: Settings) -> None:
+    provider = ChromaProvider(settings)
+    chunk = {
+        "id": "1",
+        "text": "melanoma is a serious skin cancer",
+        "metadata": {"source": "aad", "url": "https://aad.org/x", "title": "Melanoma"},
+    }
+    provider.upsert([chunk], [[0.1] * 1536])
+    assert len(provider.similarity_search([0.1] * 1536, k=5)) == 1
+
+    provider.delete_collection()
+    assert provider.similarity_search([0.1] * 1536, k=5) == []
+
+    # Collection is recreated, so subsequent upserts still work.
+    provider.upsert([chunk], [[0.2] * 1536])
+    assert len(provider.similarity_search([0.2] * 1536, k=5)) == 1

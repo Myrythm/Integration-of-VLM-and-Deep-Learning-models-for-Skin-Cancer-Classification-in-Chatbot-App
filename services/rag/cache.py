@@ -2,11 +2,15 @@ import hashlib
 import json
 from pathlib import Path
 
+from config import PROJECT_ROOT
+
 
 class EmbeddingCache:
     """File-based cache for embeddings, keyed by SHA256 of input text."""
 
-    def __init__(self, cache_dir: Path | str = ".cache/embeddings") -> None:
+    def __init__(self, cache_dir: Path | str | None = None) -> None:
+        if cache_dir is None:
+            cache_dir = PROJECT_ROOT / ".cache/embeddings"
         self._cache_dir = Path(cache_dir)
         self._cache_dir.mkdir(parents=True, exist_ok=True)
 
