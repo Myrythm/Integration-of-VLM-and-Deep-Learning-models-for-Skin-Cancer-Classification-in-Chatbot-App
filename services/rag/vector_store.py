@@ -9,6 +9,7 @@ from config import Settings
 class VectorStoreProvider(Protocol):
     def upsert(self, chunks: list[dict], embeddings: list[list[float]]) -> None: ...
     def similarity_search(self, query_embedding: list[float], k: int) -> list[dict]: ...
+    def delete_collection(self) -> None: ...
 
 
 class ChromaProvider:
@@ -29,6 +30,14 @@ class ChromaProvider:
             documents=[c["text"] for c in chunks],
             embeddings=embeddings,
             metadatas=[c["metadata"] for c in chunks],
+        )
+
+    def delete_collection(self) -> None:
+        """Drop the collection and recreate it empty so the provider stays usable."""
+        self._client.delete_collection(self._settings.chroma_collection)
+        self._collection = self._client.get_or_create_collection(
+            name=self._settings.chroma_collection,
+            metadata={"hnsw:space": "cosine"},
         )
 
     def similarity_search(self, query_embedding: list[float], k: int) -> list[dict]:
@@ -64,6 +73,9 @@ class PineconeProvider:
         raise NotImplementedError
 
     def similarity_search(self, query_embedding: list[float], k: int) -> list[dict]:
+        raise NotImplementedError
+
+    def delete_collection(self) -> None:
         raise NotImplementedError
 
 

@@ -26,10 +26,7 @@ DISCLAIMER TO INCLUDE VERBATIM:
 {disclaimer}"""
 
 
-_HUMAN_TEMPLATE = """CHAT HISTORY:
-{chat_history}
-
-USER QUESTION ({language}):
+_HUMAN_TEMPLATE = """USER QUESTION ({language}):
 {question}
 
 ASSISTANT RESPONSE:"""

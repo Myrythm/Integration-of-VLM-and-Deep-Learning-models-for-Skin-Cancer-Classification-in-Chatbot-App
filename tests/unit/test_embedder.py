@@ -1,4 +1,4 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import AsyncMock, patch, MagicMock
 
 import pytest
 
@@ -42,3 +42,19 @@ def test_embed_documents_batches(settings: Settings) -> None:
 
     assert result == fake_vectors
     assert mock_create.call_args.kwargs["input"] == ["text one", "text two"]
+
+
+async def test_aembed_query_uses_async_client(settings: Settings) -> None:
+    embedder = OpenAIEmbedder(settings)
+    fake_vector = [0.3] * 1536
+
+    mock_response = MagicMock()
+    mock_response.data = [MagicMock(embedding=fake_vector)]
+    with patch.object(
+        embedder._aclient.embeddings, "create", new=AsyncMock(return_value=mock_response)
+    ) as mock_create:
+        result = await embedder.aembed_query("apa itu melanoma?")
+
+    assert result == fake_vector
+    mock_create.assert_awaited_once()
+    assert mock_create.call_args.kwargs["input"] == "apa itu melanoma?"

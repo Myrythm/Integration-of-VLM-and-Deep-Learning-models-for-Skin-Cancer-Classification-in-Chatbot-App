@@ -19,5 +19,6 @@ def force_append_disclaimer(response: str, language: str) -> str:
     disclaimer = DISCLAIMERS.get(language, DISCLAIMERS["en"])
     if disclaimer in response:
         return response
-    sep = "\n\n" if not response.endswith("\n") else "\n"
-    return f"{response.rstrip()}{sep}{disclaimer}"
+    if not response.strip():
+        return disclaimer
+    return f"{response.rstrip()}\n\n{disclaimer}"

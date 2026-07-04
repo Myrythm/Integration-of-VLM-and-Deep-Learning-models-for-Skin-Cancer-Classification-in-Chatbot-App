@@ -6,11 +6,11 @@ from pathlib import Path
 import frontmatter
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from config import get_settings
+from config import PROJECT_ROOT, get_settings
 from services.rag.embedder import get_embedder
 from services.rag.vector_store import get_vector_store
 
-KB_ROOT = Path("data/knowledge_base")
+KB_ROOT = PROJECT_ROOT / "data/knowledge_base"
 SPLITTER = RecursiveCharacterTextSplitter(
     chunk_size=800,
     chunk_overlap=100,
@@ -95,7 +95,7 @@ def ingest_directory(source: str) -> int:
     embedder = get_embedder(settings)
     vector_store = get_vector_store(settings)
 
-    batch_size = 100
+    batch_size = settings.ingest_batch_size
     for i in range(0, len(all_chunks), batch_size):
         batch = all_chunks[i : i + batch_size]
         texts = [c["text"] for c in batch]
@@ -125,17 +125,8 @@ def main() -> None:
 
     if args.rebuild:
         settings = get_settings()
-        import chromadb
-        from chromadb.config import Settings as ChromaSettings
-        client = chromadb.PersistentClient(
-            path=settings.chroma_path,
-            settings=ChromaSettings(anonymized_telemetry=False),
-        )
-        try:
-            client.delete_collection(settings.chroma_collection)
-            print(f"Wiped collection: {settings.chroma_collection}")
-        except Exception:
-            pass
+        get_vector_store(settings).delete_collection()
+        print(f"Wiped collection: {settings.chroma_collection}")
 
     sources = ["aad", "medlineplus", "dermnet"] if args.source == "all" else [args.source]
     total = 0

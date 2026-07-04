@@ -2,7 +2,9 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-templates = Jinja2Templates(directory="templates")
+from config import PROJECT_ROOT
+
+templates = Jinja2Templates(directory=str(PROJECT_ROOT / "templates"))
 
 router = APIRouter(tags=["ui"])
 
@@ -18,18 +20,6 @@ async def upload_page(request: Request) -> HTMLResponse:
 
 
 @router.get("/chat", response_class=HTMLResponse)
-async def chat_page(
-    request: Request,
-    session: str | None = None,
-    label: str | None = None,
-    confidence: float | None = None,
-) -> HTMLResponse:
-    return templates.TemplateResponse(
-        "chat.html",
-        {
-            "request": request,
-            "session": session or "",
-            "label": label or "",
-            "confidence": confidence or 0.0,
-        },
-    )
+async def chat_page(request: Request) -> HTMLResponse:
+    # chat.html reads its URL params in JS; no server-side template context needed.
+    return templates.TemplateResponse("chat.html", {"request": request})

@@ -38,7 +38,8 @@ The `POST /api/upload` endpoint uses an EfficientNetB3 model trained on skin les
 - Takes 224×224 RGB image input
 - Outputs 4-class probabilities: `Karsinoma Sel Basal`, `Karsinoma Sel Skuamosa`, `Melanoma`, `Nevus`
 - Returns the predicted class label and confidence score
-- Is loaded lazily on first request and cached
+- Is warmed at startup (in the FastAPI lifespan) and cached; classification runs off
+  the event loop via `asyncio.to_thread` so it never blocks concurrent chat streams
 
 **Setup**: Place `skinCancer.h5` (~134 MB) in `./model/` (or set `MODEL_PATH` in `.env` to override). See [model/README.md](model/README.md) for full details.
 
