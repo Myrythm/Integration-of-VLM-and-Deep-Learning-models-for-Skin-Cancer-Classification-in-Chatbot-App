@@ -1,0 +1,8 @@
+{
+  "pmid": "42382993",
+  "title": "Matched sampling reveals uncoupled phenotypic plasticity during metastasis formation in uveal melanoma.",
+  "abstract": "Uveal melanoma (UM) is a genetically well-defined yet phenotypically diverse malignancy with a strong predilection for liver metastasis. To define phenotypic divergence during progression, we performed comprehensive gene expression profiling of primary UM (pUM) and metastatic UM (mUM) samples. Two principal molecular subtypes emerged in both entities. Matched pUM-mUM samples showed little transcriptional concordance, indicating extensive reprogramming during metastasis. Approximately half of the pUM samples exhibited a proliferative, MAPK/PI3K-driven phenotype, suggesting heterogeneous dependency on PKC signaling. Immune landscapes also diverged; pUM was dominated by adaptive responses, whereas mUM displayed innate signaling and macrophage-driven immunosuppression. The inflammatory pUM-A subtype was associated with poor survival, consistent with The Cancer Genome Atlas (TCGA) data linking chromosomal aberrations such as monosomy 3 to progression. Analysis of 53 UM samples demonstrated context-dependent phenotypes, supporting site-specific, phenotype-guided therapeutic strategies integrating pathway inhibition and immune modulation.",
+  "journal": "iScience",
+  "publish_date": "2026-07",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42382993/"
+}
