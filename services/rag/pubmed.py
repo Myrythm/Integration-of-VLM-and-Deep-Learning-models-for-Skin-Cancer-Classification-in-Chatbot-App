@@ -8,7 +8,7 @@ ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 DEFAULT_QUERY = (
     '("skin neoplasms"[MeSH] OR melanoma OR "basal cell" OR "squamous cell") '
-    'AND "patient education"[MeSH] AND English AND free full text[Filter]'
+    'AND English AND free full text[Filter]'
 )
 RATE_LIMIT_SECONDS = 0.4
 
