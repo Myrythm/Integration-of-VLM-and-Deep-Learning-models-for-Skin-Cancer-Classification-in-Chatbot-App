@@ -5,7 +5,7 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.runnables import Runnable, RunnableLambda
 
 
-def format_docs(docs: list[Document]) -> str:
+def format_docs(docs: list[Document], max_chars: int = 1500) -> str:
     """Number chunks [1], [2], ... for inline citation. Truncates long content."""
     if not docs:
         return "(no context available)"
@@ -20,7 +20,7 @@ def format_docs(docs: list[Document]) -> str:
         if url:
             header += f", url: {url}"
         header += ")"
-        content = d.page_content[:1500]
+        content = d.page_content[:max_chars]
         parts.append(f"[{i}] {content}\n{header}")
     return "\n\n".join(parts)
 
@@ -29,15 +29,20 @@ def build_rag_chain(
     retriever: BaseRetriever,
     llm: BaseChatModel,
     prompt: ChatPromptTemplate,
+    context_chunk_chars: int = 1500,
 ) -> Runnable:
     """Build the LCEL RAG chain. Stateless beyond injected deps."""
 
-    def retrieve(inputs: dict) -> dict:
-        docs = retriever.invoke(inputs["question"])
-        return {**inputs, "context": format_docs(docs), "retrieved_docs": docs}
+    async def retrieve(inputs: dict) -> dict:
+        docs = await retriever.ainvoke(inputs["question"])
+        return {
+            **inputs,
+            "context": format_docs(docs, max_chars=context_chunk_chars),
+            "retrieved_docs": docs,
+        }
 
     return (
-        RunnableLambda(retrieve)
+        RunnableLambda(retrieve).with_config(run_name="retrieve")
         | prompt
         | llm
     )

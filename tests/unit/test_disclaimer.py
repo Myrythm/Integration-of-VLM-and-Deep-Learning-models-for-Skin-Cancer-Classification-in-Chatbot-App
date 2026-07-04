@@ -30,3 +30,15 @@ def test_uses_correct_language() -> None:
 def test_falls_back_to_english_for_unknown_language() -> None:
     out = force_append_disclaimer("Some text.", "xx")
     assert DISCLAIMERS["en"] in out
+
+
+def test_separator_is_consistent_double_newline() -> None:
+    ending_newline = force_append_disclaimer("Melanoma info.\n", "en")
+    no_newline = force_append_disclaimer("Melanoma info.", "en")
+    assert ending_newline == f"Melanoma info.\n\n{DISCLAIMERS['en']}"
+    assert no_newline == f"Melanoma info.\n\n{DISCLAIMERS['en']}"
+
+
+def test_empty_response_returns_disclaimer_only() -> None:
+    assert force_append_disclaimer("", "en") == DISCLAIMERS["en"]
+    assert force_append_disclaimer("   \n", "id") == DISCLAIMERS["id"]
