@@ -1,0 +1,8 @@
+{
+  "pmid": "42383193",
+  "title": "Systematic identification of genomic nonresponse biomarkers to cancer therapies.",
+  "abstract": "The costs of cancer therapies are rising rapidly worldwide, with novel therapies such as targeted treatment and immunotherapies being major contributors, but their effectiveness can be low or uncertain due to limited postmarket surveillance. Reliable biomarkers to identify patients highly unlikely to respond to cancer therapies represent an increasingly important clinical and societal need, as they could prevent unnecessary treatments, reduce side effects, and alleviate pressure on health care systems. We developed a robust statistical framework for the identification of nonresponse biomarkers for systemic treatments and applied it to whole-genome and transcriptome sequencing data of cancer patients (N = 2594) with advanced disease. Our approach identified known and potentially novel genomic and transcriptomic biomarkers of nonresponse, such as immune evasion driver events in skin melanoma patients treated with anti-programmed cell death protein 1 checkpoint inhibitors and KRAS G12 mutations in metastatic colorectal cancer patients treated with different chemotherapy regimens. Analytical power analysis revealed that for most treatments and/or cancer types, the cohort sizes remain underpowered. Systematic identification of nonresponse signals reveals multiple potential biomarkers that will require larger cohort sizes for prospective clinical implementation.",
+  "journal": "ESMO real world data and digital oncology",
+  "publish_date": "2026-09",
+  "url": "https://pubmed.ncbi.nlm.nih.gov/42383193/"
+}
