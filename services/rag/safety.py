@@ -2,7 +2,6 @@ import re
 
 _DOSAGE_PATTERNS = [
     re.compile(r"\bdos[ie]s?\b", re.IGNORECASE),
-    re.compile(r"\bdose\b", re.IGNORECASE),
     re.compile(r"\bberapa (mg|ml|mcg|tablet|kapsul)\b", re.IGNORECASE),
     re.compile(r"\bmg\b|\bml\b|\bmcg\b", re.IGNORECASE),
     re.compile(r"\bhow much (should i|to) take\b", re.IGNORECASE),
@@ -18,6 +17,16 @@ _OFF_TOPIC_KEYWORDS_EN = [
     "weather", "economy", "stock", "crypto", "bitcoin", "capital",
 ]
 
+_SKIN_KEYWORDS = [
+    "kulit", "skin", "kanker", "cancer", "melanoma", "lesi", "lesion",
+    "mole", "tahi lalat", "bintik", "spot", "dermatolog", "dermatitis",
+    "jerawat", "acne", "gatal", "itch", "rash", "biopsy", "dermatology",
+]
+
+_OFF_TOPIC_RE_ID = re.compile(r"\b(" + "|".join(map(re.escape, _OFF_TOPIC_KEYWORDS_ID)) + r")\b")
+_OFF_TOPIC_RE_EN = re.compile(r"\b(" + "|".join(map(re.escape, _OFF_TOPIC_KEYWORDS_EN)) + r")\b")
+_SKIN_KEYWORDS_RE = re.compile(r"\b(" + "|".join(map(re.escape, _SKIN_KEYWORDS)) + r")\b")
+
 
 def classify_query_danger(query: str, language: str) -> str:
     """Heuristic classifier. Returns one of: safe_medical, safe_general,
@@ -32,16 +41,11 @@ def classify_query_danger(query: str, language: str) -> str:
         if pat.search(q):
             return "unsafe_dosage"
 
-    off_topic_words = _OFF_TOPIC_KEYWORDS_ID if language == "id" else _OFF_TOPIC_KEYWORDS_EN
-    if any(w in q for w in off_topic_words):
+    off_topic_re = _OFF_TOPIC_RE_ID if language == "id" else _OFF_TOPIC_RE_EN
+    if off_topic_re.search(q):
         return "off_topic"
 
-    skin_keywords = [
-        "kulit", "skin", "kanker", "cancer", "melanoma", "lesi", "lesion",
-        "mole", "tahi lalat", "bintik", "spot", "dermatolog", "dermatitis",
-        "jerawat", "acne", "gatal", "itch", "rash", "biopsy", "dermatology",
-    ]
-    if any(w in q for w in skin_keywords):
+    if _SKIN_KEYWORDS_RE.search(q):
         return "safe_medical"
 
     return "safe_general"
