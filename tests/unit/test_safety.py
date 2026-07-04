@@ -14,6 +14,9 @@ def test_medical_question_allowed() -> None:
 def test_off_topic_blocked() -> None:
     assert classify_query_danger("siapa presiden indonesia?", "id") == "off_topic"
     assert classify_query_danger("what is the capital of france?", "en") == "off_topic"
+    # Ensure word boundaries are respected
+    assert classify_query_danger("compression stockings for my skin", "en") != "off_topic"
+    assert classify_query_danger("biofilm on skin", "en") != "off_topic"
 
 
 def test_general_health_question_allowed() -> None:
