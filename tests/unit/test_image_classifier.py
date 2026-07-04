@@ -40,6 +40,25 @@ def test_preprocess_image_converts_rgba_to_rgb() -> None:
     assert arr.shape == (1, 224, 224, 3)
 
 
+def test_preprocess_image_respects_custom_size() -> None:
+    arr = preprocess_image(_make_test_image_bytes(), size=(32, 32))
+    assert arr.shape == (1, 32, 32, 3)
+
+
+def test_classify_skin_image_uses_configured_input_size() -> None:
+    settings = Settings(
+        openai_api_key="test", model_path="./model/skinCancer.h5", image_input_size=32
+    )
+    fake_model = MagicMock()
+    fake_model.predict.return_value = np.array([[0.7, 0.1, 0.1, 0.1]])
+
+    with patch("services.image.classifier._get_model", return_value=fake_model):
+        classify_skin_image(_make_test_image_bytes(), settings=settings)
+
+    call_arg = fake_model.predict.call_args[0][0]
+    assert call_arg.shape == (1, 32, 32, 3)
+
+
 def test_classify_skin_image_uses_model_prediction() -> None:
     settings = Settings(openai_api_key="test", model_path="./model/skinCancer.h5")
     fake_model = MagicMock()
@@ -78,3 +97,25 @@ def test_classify_skin_image_handles_low_confidence() -> None:
 
     assert result.confidence == pytest.approx(0.25, abs=1e-6)
     assert result.label in SKIN_CANCER_LABELS
+
+
+def test_classify_skin_image_raises_on_wrong_output_width() -> None:
+    settings = Settings(openai_api_key="test", model_path="./model/skinCancer.h5")
+    fake_model = MagicMock()
+    fake_model.predict.return_value = np.array([[0.2, 0.2, 0.2, 0.2, 0.2]])
+
+    with patch("services.image.classifier._get_model", return_value=fake_model):
+        with pytest.raises(ValueError):
+            classify_skin_image(_make_test_image_bytes(), settings=settings)
+
+
+def test_classify_skin_image_applies_softmax_to_logits() -> None:
+    settings = Settings(openai_api_key="test", model_path="./model/skinCancer.h5")
+    fake_model = MagicMock()
+    fake_model.predict.return_value = np.array([[2.0, 1.0, 0.1, -1.0]])
+
+    with patch("services.image.classifier._get_model", return_value=fake_model):
+        result = classify_skin_image(_make_test_image_bytes(), settings=settings)
+
+    assert 0.0 <= result.confidence <= 1.0
+    assert result.label == "Melanoma"
