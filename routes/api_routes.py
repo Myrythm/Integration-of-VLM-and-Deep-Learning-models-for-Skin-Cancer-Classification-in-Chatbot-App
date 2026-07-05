@@ -45,7 +45,7 @@ async def upload_image(file: UploadFile = File(...)) -> ImageUploadResponse:
     # Cheap local decode check: reject non-image bytes before spending a VLM call.
     try:
         Image.open(io.BytesIO(contents)).verify()
-    except UnidentifiedImageError:
+    except (UnidentifiedImageError, OSError):
         raise HTTPException(status_code=400, detail="File is not a valid image")
 
     settings = get_settings()

@@ -115,6 +115,17 @@ def test_upload_image_rejects_corrupt_image_bytes() -> None:
     assert response.json()["detail"] == "File is not a valid image"
 
 
+def test_upload_rejects_truncated_image() -> None:
+    full = _make_test_image_bytes(size=(200, 200))
+    truncated = full[: len(full) // 2]
+    response = client.post(
+        "/api/upload",
+        files={"file": ("test.png", BytesIO(truncated), "image/png")},
+    )
+    assert response.status_code == 400
+    assert response.json()["detail"] == "File is not a valid image"
+
+
 def test_upload_image_rejects_oversize_file() -> None:
     huge_bytes = b"0" * (10 * 1024 * 1024 + 1)
     response = client.post(

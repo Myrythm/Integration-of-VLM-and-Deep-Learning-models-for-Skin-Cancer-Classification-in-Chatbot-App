@@ -33,3 +33,11 @@ def test_settings_has_vision_defaults() -> None:
     s = Settings(openai_api_key="x")
     assert s.openai_vision_model == "gpt-4o"
     assert s.image_validation_timeout_seconds == 30
+
+
+def test_vision_settings_read_from_env(monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_VISION_MODEL", "gpt-4o-mini")
+    monkeypatch.setenv("IMAGE_VALIDATION_TIMEOUT_SECONDS", "5")
+    s = Settings(openai_api_key="x")
+    assert s.openai_vision_model == "gpt-4o-mini"
+    assert s.image_validation_timeout_seconds == 5
