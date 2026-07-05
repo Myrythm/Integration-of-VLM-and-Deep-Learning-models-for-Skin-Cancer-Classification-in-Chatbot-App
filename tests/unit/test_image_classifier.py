@@ -19,6 +19,16 @@ def _make_test_image_bytes(size: tuple[int, int] = (500, 700), color: str = "red
     return buf.getvalue()
 
 
+def test_labels_match_model_training_order() -> None:
+    # Ground truth: the order the trained skinCancer.h5 emits (from legacy/flask config.LABELS).
+    assert SKIN_CANCER_LABELS == [
+        "Karsinoma Sel Basal",
+        "Karsinoma Sel Skuamosa",
+        "Melanoma",
+        "Nevus",
+    ]
+
+
 def test_labels_are_four_classes() -> None:
     assert len(SKIN_CANCER_LABELS) == 4
     assert "Melanoma" in SKIN_CANCER_LABELS
@@ -67,7 +77,7 @@ def test_classify_skin_image_uses_model_prediction() -> None:
     with patch("services.image.classifier._get_model", return_value=fake_model):
         result = classify_skin_image(_make_test_image_bytes(), settings=settings)
 
-    assert result.label == "Melanoma"
+    assert result.label == "Karsinoma Sel Basal"
     assert 0.0 <= result.confidence <= 1.0
     assert result.confidence == pytest.approx(0.80, abs=1e-6)
     fake_model.predict.assert_called_once()
@@ -118,4 +128,4 @@ def test_classify_skin_image_applies_softmax_to_logits() -> None:
         result = classify_skin_image(_make_test_image_bytes(), settings=settings)
 
     assert 0.0 <= result.confidence <= 1.0
-    assert result.label == "Melanoma"
+    assert result.label == "Karsinoma Sel Basal"
