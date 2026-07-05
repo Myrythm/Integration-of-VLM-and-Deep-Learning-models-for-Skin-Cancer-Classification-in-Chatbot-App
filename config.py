@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
     openai_embedding_model: str = "text-embedding-3-small"
+    openai_vision_model: str = "gpt-4o"
+    image_validation_timeout_seconds: int = 30
     ollama_model: str = "llama3.1:8b"
     ollama_base_url: str = "http://localhost:11434"
 
