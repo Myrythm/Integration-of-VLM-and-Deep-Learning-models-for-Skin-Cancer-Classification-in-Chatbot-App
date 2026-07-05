@@ -97,6 +97,11 @@ Behavior:
 
 Insert validation after the bytes are fully read and before `classify_skin_image`:
 
+0. **Cheap local decode check** — `Image.open(BytesIO(contents)).verify()`; on
+   `UnidentifiedImageError` raise `HTTPException(400, "File is not a valid image")`.
+   This runs *before* the VLM call so corrupt/non-image bytes are rejected locally without
+   spending an OpenAI request (previously this 400 came from the classifier, which now
+   runs after validation).
 1. `result = await validate_skin_image(contents, file.content_type, settings)`
 2. `result == "invalid"` → `HTTPException(400, detail=<bilingual message>)`; do not classify.
 3. `ValidationUnavailableError` → `HTTPException(503, detail=<bilingual message>)`; do not classify.
