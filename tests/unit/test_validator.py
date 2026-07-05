@@ -75,3 +75,10 @@ async def test_forwards_configured_timeout_to_client() -> None:
     with patch("services.image.validator.AsyncOpenAI", return_value=client) as mock_ctor:
         await validate_skin_image(IMG, "image/png", _settings())
     assert mock_ctor.call_args.kwargs["timeout"] == 30
+
+
+async def test_closes_client_after_call() -> None:
+    client = _mock_client_returning("valid")
+    with patch("services.image.validator.AsyncOpenAI", return_value=client):
+        await validate_skin_image(IMG, "image/png", _settings())
+    client.close.assert_awaited_once()
