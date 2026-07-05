@@ -53,8 +53,11 @@ All runtime config flows through `config.py` (`pydantic-settings`, reads `.env`)
 ## Architecture
 
 Request flow:
-- `POST /api/upload` → `routes/api_routes.py` → `services/image/classifier.classify_skin_image`
-  (run via `asyncio.to_thread`) returns a `DetectionResult` + a new `chat_session_id`.
+- `POST /api/upload` → `routes/api_routes.py` decodes the image, runs
+  `services/image/validator.validate_skin_image` (GPT-4o Vision; `invalid` → 400,
+  VLM failure → 503 fail-closed), then `services/image/classifier.classify_skin_image`
+  (via `asyncio.to_thread`) returns a `DetectionResult` + `validation_status` + a new
+  `chat_session_id`.
 - `POST /api/chat` → `routes/chat_routes.py` streams Server-Sent Events. It runs the safety
   classifier first, then the RAG chain via LangChain `astream_events(version="v2")`, manually
   translating chain events into typed `ChatChunk` SSE frames (`token`, `citation`, `blocked`,
