@@ -27,3 +27,9 @@ def test_absolute_path_is_left_as_is(tmp_path: Path) -> None:
     target = tmp_path / "custom_chroma"
     s = Settings(openai_api_key="x", chroma_path=str(target))
     assert Path(s.chroma_path) == target
+
+
+def test_settings_has_vision_defaults() -> None:
+    s = Settings(openai_api_key="x")
+    assert s.openai_vision_model == "gpt-4o"
+    assert s.image_validation_timeout_seconds == 30
