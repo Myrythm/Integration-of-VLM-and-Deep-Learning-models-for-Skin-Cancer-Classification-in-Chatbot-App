@@ -45,6 +45,7 @@ async def validate_skin_image(
     b64 = base64.b64encode(image_bytes).decode("utf-8")
     data_url = f"data:{content_type};base64,{b64}"
 
+    client = None
     try:
         client = AsyncOpenAI(
             api_key=settings.openai_api_key,
@@ -71,6 +72,9 @@ async def validate_skin_image(
     except Exception as exc:  # noqa: BLE001 - fail closed on any SDK/network error
         logger.exception("Vision validation call failed")
         raise ValidationUnavailableError(str(exc)) from exc
+    finally:
+        if client is not None:
+            await client.close()
 
     raw = (response.choices[0].message.content or "").strip().lower()
     if raw in _VERDICTS:

@@ -68,3 +68,10 @@ async def test_sends_base64_data_url_with_content_type() -> None:
     user_msg = kwargs["messages"][-1]["content"]
     image_part = next(p for p in user_msg if p["type"] == "image_url")
     assert image_part["image_url"]["url"].startswith("data:image/jpeg;base64,")
+
+
+async def test_forwards_configured_timeout_to_client() -> None:
+    client = _mock_client_returning("valid")
+    with patch("services.image.validator.AsyncOpenAI", return_value=client) as mock_ctor:
+        await validate_skin_image(IMG, "image/png", _settings())
+    assert mock_ctor.call_args.kwargs["timeout"] == 30
