@@ -138,8 +138,10 @@
             showError(0, "Tidak dapat terhubung ke server. Periksa koneksi Anda lalu coba lagi. / Could not reach the server. Check your connection and try again.");
         } finally {
             loading.classList.add("hidden");
-            detectBtn.disabled = false;
             detectBtnText.textContent = "Deteksi Gambar";
+            // Tombol deteksi sengaja dibiarkan nonaktif setelah error/proses;
+            // aktif kembali otomatis saat pengguna memilih gambar baru (handleFile)
+            // atau menekan "Unggah Ulang Gambar".
         }
     });
 })();
