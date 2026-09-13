@@ -7,9 +7,9 @@ from pydantic import BaseModel, Field
 # preserve the layering rule (schemas/ is Pydantic-only). A unit test asserts the
 # two lists stay equal (tests/unit/test_detection.py).
 SkinCancerLabel = Literal[
-    "Melanoma",
     "Karsinoma Sel Basal",
     "Karsinoma Sel Skuamosa",
+    "Melanoma",
     "Nevus",
 ]
 

@@ -147,6 +147,7 @@ All settings load from `.env` via `pydantic-settings` (see [`.env.example`](.env
 | `LLM_BACKEND` | `openai` | LLM backend (`openai`; `ollama`/`vllm` are stubs). |
 | `OPENAI_MODEL` | `gpt-4o-mini` | Chat model. |
 | `OPENAI_EMBEDDING_MODEL` | `text-embedding-3-small` | Embedding model. |
+| `OPENAI_VISION_MODEL` | `gpt-4o` | Vision model that validates an upload is a skin lesion. |
 | `VECTOR_STORE_BACKEND` | `chroma` | Vector store (`chroma`; `pinecone` is a stub). |
 | `CHROMA_PATH` | `./data/chroma_db` | Chroma persistence path. |
 | `RAG_SIMILARITY_THRESHOLD` | `0.3` | Min. score to keep a retrieved chunk. |

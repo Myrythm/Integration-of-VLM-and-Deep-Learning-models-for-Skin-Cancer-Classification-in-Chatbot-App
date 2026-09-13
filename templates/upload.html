@@ -47,6 +47,22 @@
         </div>
     </div>
 
+    <div id="error-card" class="hidden mt-6 bg-white dark:bg-slate-900 rounded-2xl border border-red-200 dark:border-red-900/50 shadow-sm p-6 animate-fade-in-up">
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-x-octagon-fill text-xl text-red-600 dark:text-red-400"></i>
+            </div>
+            <div class="min-w-0">
+                <h2 id="error-title" class="text-lg font-bold text-slate-900 dark:text-white">Gagal Memproses Gambar</h2>
+                <p id="error-message" class="mt-1 text-sm text-slate-500 dark:text-slate-400 leading-relaxed"></p>
+            </div>
+        </div>
+        <button id="reupload-btn" type="button"
+                class="w-full mt-5 px-6 py-3 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2">
+            <i class="bi bi-arrow-clockwise"></i> Unggah Ulang Gambar
+        </button>
+    </div>
+
     <div id="result-card" class="hidden mt-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 animate-fade-in-up">
         <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-4">Hasil Klasifikasi</h2>
         <div class="flex items-center justify-between mb-4">
