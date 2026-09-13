@@ -1,19 +1,17 @@
 <div align="center">
 
-# 🩺 SkinVision — Skin-Cancer RAG Chatbot
+# Integration of VLM and Deep Learning models for Skin Cancer Classification in Chatbot App
 
 **AI-assisted skin-cancer education, grounded in real sources.**
 
-Combines **EfficientNetB3** lesion classification with a **RAG-grounded, bilingual
-(🇮🇩 / 🇬🇧) chatbot** that answers from a curated medical knowledge base — with inline
+Combines **EfficientNetB3** cancer classification with a **RAG-grounded, bilingual
+(🇮🇩 / 🇬🇧) chatbot** that answers from a curated medical knowledge base, with inline
 citations and a mandatory medical disclaimer on every turn.
 
 ![Python](https://img.shields.io/badge/python-3.11-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-0.3-1C3C3C)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-0.5-FF6F61)
-![Tests](https://img.shields.io/badge/tests-120%20passing-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 </div>
 
@@ -40,17 +38,15 @@ citations and a mandatory medical disclaimer on every turn.
 
 ## Features
 
-- 🔬 **AI lesion classification** — EfficientNetB3 across 4 classes (Melanoma, Basal Cell
+- **Related skin conditions classification** — Use VLM to classify the image of related skin conditions.
+- **Cancer classification** — EfficientNetB3 across 4 classes (Melanoma, Basal Cell
   Carcinoma, Squamous Cell Carcinoma, Nevus).
-- 💬 **Bilingual RAG chatbot** — Indonesian + English, grounded in patient-education
+- **Bilingual RAG chatbot** — Indonesian + English, grounded in patient-education
   guidelines (AAD, MedlinePlus, DermNet) and curated PubMed abstracts.
-- 📚 **Verifiable citations** — every answer is filtered to the sources it actually cited.
-- ⚠️ **Safety-first by design** — mandatory disclaimer on *every* turn, canned refusals for
+- **Verifiable citations** — every answer is filtered to the sources it actually cited.
+- **Safety-first by design** — mandatory disclaimer on *every* turn, canned refusals for
   unsafe-dosage / off-topic queries, and prompt-injection-resistant detection handling.
-- ⚡ **Fully async & streaming** — token-by-token SSE, non-blocking retrieval and image
-  inference (`asyncio.to_thread`), with a stream timeout and anti-buffering headers.
-- 🔒 **Privacy-friendly** — local ChromaDB vector store; queries are hashed before logging.
-- 🔌 **Swappable backends** — OpenAI today; Ollama / vLLM / Pinecone behind `Protocol` +
+- **Swappable backends** — OpenAI / Ollama / vLLM / Pinecone behind `Protocol` +
   factory, selected via env var.
 
 ## How it works
@@ -141,18 +137,18 @@ Open **http://localhost:8000** — or hit the API directly (see below).
 
 All settings load from `.env` via `pydantic-settings` (see [`.env.example`](.env.example)):
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `OPENAI_API_KEY` | — | **Required.** OpenAI key (startup fails if empty). |
-| `LLM_BACKEND` | `openai` | LLM backend (`openai`; `ollama`/`vllm` are stubs). |
-| `OPENAI_MODEL` | `gpt-4o-mini` | Chat model. |
-| `OPENAI_EMBEDDING_MODEL` | `text-embedding-3-small` | Embedding model. |
-| `OPENAI_VISION_MODEL` | `gpt-4o` | Vision model that validates an upload is a skin lesion. |
-| `VECTOR_STORE_BACKEND` | `chroma` | Vector store (`chroma`; `pinecone` is a stub). |
-| `CHROMA_PATH` | `./data/chroma_db` | Chroma persistence path. |
-| `RAG_SIMILARITY_THRESHOLD` | `0.3` | Min. score to keep a retrieved chunk. |
-| `RAG_TOP_K` / `RAG_RETRIEVE_K` | `5` / `10` | Chunks used / fetched per query. |
-| `MODEL_PATH` | `./model/skinCancer.h5` | EfficientNetB3 weights. |
+| Variable                       | Default                  | Description                                             |
+| --------------------------------| --------------------------| ---------------------------------------------------------|
+| `OPENAI_API_KEY`               | —                        | **Required.** OpenAI key (startup fails if empty).      |
+| `LLM_BACKEND`                  | `openai`                 | LLM backend (`openai`; `ollama`/`vllm` are stubs).      |
+| `OPENAI_MODEL`                 | `gpt-4o-mini`            | Chat model.                                             |
+| `OPENAI_EMBEDDING_MODEL`       | `text-embedding-3-small` | Embedding model.                                        |
+| `OPENAI_VISION_MODEL`          | `gpt-4o`                 | Vision model that validates an upload is a skin lesion. |
+| `VECTOR_STORE_BACKEND`         | `chroma`                 | Vector store (`chroma`; `pinecone` is a stub).          |
+| `CHROMA_PATH`                  | `./data/chroma_db`       | Chroma persistence path.                                |
+| `RAG_SIMILARITY_THRESHOLD`     | `0.3`                    | Min. score to keep a retrieved chunk.                   |
+| `RAG_TOP_K` / `RAG_RETRIEVE_K` | `5` / `10`               | Chunks used / fetched per query.                        |
+| `MODEL_PATH`                   | `./model/skinCancer.h5`  | EfficientNetB3 weights.                                 |
 
 > Advanced tunables (memory TTL/size, LLM temperature, stream timeout, batch sizes) also live
 > in `config.py` and are overridable via matching env vars.
